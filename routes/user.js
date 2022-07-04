@@ -60,13 +60,13 @@ router.post('/login', (req, res) => {
       } else {
         req.session.userLogInErr = 'Sorry your account have been blocked'
         // res.redirect('/login')
-        res.send({"error":"Sorry your account have been blocked"})
+        res.send({message:"Sorry your account have been blocked"})
 
       }
     } else {
       req.session.userLogInErr = 'Invalid Username or Password'
       // res.redirect('/login')
-      res.send({"error":"Invalid Username or Password"})
+      res.send({message:"Invalid Username or Password"})
     }
   })
 })
@@ -97,7 +97,8 @@ router.get('/login', (req, res) => {
   if (req.session.user) {
     res.redirect('/')
   } else {
-    res.render('user/login', { 'logInErr': req.session.userLogInErr, signupSuccess })
+    // res.render('user/login', { 'logInErr': req.session.userLogInErr, signupSuccess })
+    res.send({logInErr: req.session.userLogInErr, signupSuccess})
     req.session.userLogInErr = false
   }
   signupSuccess = null
@@ -105,11 +106,11 @@ router.get('/login', (req, res) => {
 
 router.get('/otpLogin', (req, res) => {
   if (req.session.user) {
-    res.redirect('/')
-    // res.send({login:true})
+    // res.redirect('/')
+    res.send({login:true})
   } else {
-    res.render('user/otpLogin', { 'logInErr': req.session.userLogInErr })
-    // res.send({'logInErr': req.session.userLogInErr})
+    // res.render('user/otpLogin', { 'logInErr': req.session.userLogInErr })
+    res.send({logInErr: req.session.userLogInErr})
     req.session.userLogInErr = false
   }
 })
@@ -163,11 +164,13 @@ router.post('/otpSubmit/:id', (req, res) => {
             res.redirect('/')
           } else {
             req.session.userLogInErr = 'Invalid Username or Password'
-            res.redirect('/login')
+            // res.redirect('/login')
+            res.send({message:'Invalid Username or Password'})
           }
         })
       } else {
-        res.render('user/otpSubmit', { otpErr: 'Invalid otp', otpPhone })
+        // res.render('user/otpSubmit', { otpErr: 'Invalid otp', otpPhone })
+        res.send({ otpErr: 'Invalid otp', otpPhone })
       }
     })
 })
@@ -183,7 +186,8 @@ router.get('/resendOtp/:id', (req, res) => {
     })
     .then((resp) => {
       if (resp) {
-        res.render('user/otpSubmit', { otpPhone, reotp: 'otp has been resend' })
+        // res.render('user/otpSubmit', { otpPhone, reotp: 'otp has been resend' })
+        res.send({otpPhone, reotp: 'otp has been resend'})
       }
     })
 

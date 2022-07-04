@@ -34,11 +34,12 @@ router.get('/adminlog', (req, res) => {
 router.post('/adminlog', (req, res) => {
   if (req.body.email == credential.email && req.body.password == credential.password) {
     user = req.session.adminLoggedIn = true;
-    res.redirect('/admin/view-users')
-    // res.send
+    // res.redirect('/admin/view-users')
+    res.send({user:user})
   } else {
     req.session.adminLogInErr = 'Invalid Username or Password'
-    res.redirect('/admin/adminlog')
+    // res.redirect('/admin/adminlog')
+    res.send({message:"Invalid Username or Password"})
   }
 })
 router.get('/', verifyLogin, function (req, res, next) {
