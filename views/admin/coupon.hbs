@@ -1,0 +1,122 @@
+<section id="add">
+    <div class="half">
+        <div class="bg order-1 order-md-2"></div>
+
+        <div class="contents order-2 order-md-1">
+            <div class="container">
+                <div class="col-md-12">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-6">
+                            <div class="form-block" id="cat">
+                                <div class="text-center mb-5">
+                                    <h3>Add new <strong>Coupon</strong></h3>
+                                    {{#if catErr}}
+                                    <p class="text-center text-danger">{{catErr}}</p>
+                                    {{/if}}
+                                </div>
+                                <form action="/admin/add-coupon" id="productPage" method="post">
+                                    {{#if couponExist}}
+                                    <div class="alert alert-danger" role="alert">
+                                        This Coupon is already exist!
+                                    </div>
+                                    {{/if}}
+                                    <div class="form-group first">
+                                        <label for="category">Coupon code</label>
+                                        <input type="text" class="form-control" name="Coupon">
+
+                                        {{!-- <label class="pt-4">Starting Date</label> --}}
+                                        {{!-- <input type="Date" class="form-control" hidden required name="Starting"
+                                            id="str"> --}}
+                                        <label class="pt-4">Expiry Date</label>
+                                        <input type="Date" class="form-control" required name="Expiry" id="txtDate">
+                                        <label class="pt-4">Coupon Percentage</label>
+                                        <input type="text" class="form-control" required min="1" name="Offer" max="95"
+                                            onkeypress="return isNumber(event)" id="numberbox">
+                                    </div>
+                                    <input type="submit" value="Add" id="prosub" class="btn btn-block btn-primary">
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section style="padding-bottom: 100px;">
+    <table class="table" id="adminTable">
+        <thead>
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">Coupon</th>
+                {{!-- <th scope="col">Start Date</th> --}}
+                <th scope="col">End Date</th>
+                <th scope="col">Percentage</th>
+                <th scope="col">Options</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each allCoupons}}
+            <tr>
+                <td>{{inc @index}}</td>
+                <td>{{this.Coupon}}</td>
+
+                {{!-- <td>{{this.Starting}}</td> --}}
+                <td>{{this.Expiry}}</td>
+                <td>{{this.Offer}}</td>
+                <td>
+                    {{!-- <a href="/admin/edit-coupon/{{this._id}}" class="btn btn-primary"><i
+                            class="fas fa-edit"></i></a> --}}
+                    <a class="btn btn-danger" href="/admin/delete-coupon/{{this._id}}" name="{{this.Category}}"
+                        onclick="deleteCoupon(event)"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+    </table>
+</section>
+<hr>
+
+
+
+<script>
+    $('#numberbox').keyup(function(){
+  if ($(this).val() > 90){
+    alert("No numbers above 90");
+    $(this).val('90');
+  }
+});
+
+    $(document).ready(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+
+        // or instead:
+        // var maxDate = dtToday.toISOString().substr(0, 10);
+        $('#txtDate').attr('min', maxDate);
+    })
+</script>
+<script>
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+</script>

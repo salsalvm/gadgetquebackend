@@ -1,0 +1,103 @@
+<section>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <form action="/admin/add-product" method="post" enctype="multipart/form-data" id="addProductForm">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="Name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Category</label><br>
+                        <select class="form-select" id="category" name="Category" aria-label="Default select example"
+                            required>
+                            <option value="" selected>Choose a Category</option>
+                            {{#each category}}
+                            <option value="{{this.Category}}">{{this.Category}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">₹Original Price</label>
+                        <input type="text" class="form-control" name="originalPrice" onkeypress='validate(event)'>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">₹Selling Price</label>
+                        <input type="text" class="form-control" name="Price" onkeypress='validate(event)'>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Description</label>
+                        <input type="text" class="form-control" name="Description">
+                        <input type="text" class="form-control" name="imageId" value="{{imageId}}" hidden>
+                    </div>
+                    {{!-- <div class="mb-3">
+                        <label for="" class="form-label">Image</label>
+                        <input type="file" class="form-control" name="Image" accept="image/*" id="id_image1"
+                            onchange=" fileValidation1(event)" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Image2</label>
+                        <input type="file" class="form-control" accept="image/*" name="Image2" id="id_image2"
+                            onchange=" fileValidation2(event)">
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Image3</label>
+                        <input type="file" class="form-control" accept="image/*" name="Image3" id="id_image3"
+                            onchange=" fileValidation3(event)">
+                    </div> --}}
+
+
+                    <div class="row">
+                        {{!-- <div class="col-12">
+                            <div id="image-box1" style="width: 500px; height: 500px; display: none;"></div>
+                            <button class="btn btn-primary  mt-3" type="button" style="display: none;"
+                                id="crop-btn1">Crop</button>
+                        </div> --}}
+                        <div class="mt-5 col-md-6">
+                            <label for="">IMAGE 1</label>
+                            <img src="" alt="" style="width: 100px; height:auto" id="imgView1">
+                            <input type="file" name="image1"  class="form-control" required>
+                        </div>
+                        <div class="mt-5 col-md-6">
+                            <label for="">IMAGE 2</label>
+                            <img src="" alt="" style="width: 100px; height:auto" id="imgView2">
+                            <input type="file" name="image2"  class="form-control" required>
+                        </div>
+                        <div class="mt-5 col-md-6">
+                            <label for="">IMAGE 3</label>
+                            <img src="" alt="" style="width: 100px; height:auto" id="imgView3">
+                            <input type="file" name="image3"  class="form-control" required>
+                        </div>
+                    </div>
+
+
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+  function validate(evt) {
+  var theEvent = evt || window.event;
+
+  // Handle paste
+  if (theEvent.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[0-9]|\./;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
+}
+</script>
+
+
+

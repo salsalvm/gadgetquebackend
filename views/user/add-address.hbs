@@ -1,0 +1,85 @@
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <h2>Add Address</h2>
+    </div>
+
+    <div class="row g-5">
+      <div class="col-md-5 col-lg-4 order-md-last">
+        
+
+       
+      </div>
+      <div class="col-md-7 col-lg-8">
+       
+        <form action="/add-address" method="post">
+          <div class="row g-3">
+
+            <div class="col-12">
+              <label for="username" class="form-label">Name</label>
+              <input type="text" class="form-control" id="Name" name="name" placeholder="Name" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' required>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St" required>
+            </div>
+
+            <div class="col-12">
+              <label for="address" class="form-label">Address Type</label>
+              <select class="form-select" id="category" name="type" aria-label="Default select example" required>
+                <option value="" selected>Choose a Type</option>
+                <option value="Home">Home</option>
+                <option value="Work">Work</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Mobile</label>
+              <input type="tele" maxlength="10" onkeypress='validate(event)' class="form-control" id="phoneNumber" 
+                name="mobile" placeholder="">
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label">Pincode</label>
+              <input type="text" class="form-control" name="pincode" onkeypress='validate(event)' maxlength="6" placeholder="" required>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+         
+
+          <div class="my-3">
+            
+
+            <button class="w-100 btn btn-primary btn-lg" type="submit">Submit</button>
+        </form>
+        
+      </div>
+    </div>
+  </main>
+</div>
+
+
+<script>
+  function validate(evt) {
+  var theEvent = evt || window.event;
+
+  // Handle paste
+  if (theEvent.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[0-9]|\./;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
+}
+</script>
+

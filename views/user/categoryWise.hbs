@@ -1,0 +1,55 @@
+<div class="container for-you">
+    <div class="heading heading-flex mb-3">
+        <div class="heading-left">
+            <h2 class="title">{{cat}}</h2><!-- End .title -->
+        </div><!-- End .heading-left -->
+    </div><!-- End .heading -->
+
+    <div class="products">
+        <div class="row justify-content-center">
+            {{#each prodata}}
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product product-2">
+                    <figure class="product-media">
+                        <span class="product-label label-circle label-sale">Sale</span>
+                        <a href="">
+                            <img src="/product-image/{{this._id}}/{{this.imageId}}_1.jpg" alt="Product image"
+                                class="product-image">
+                        </a>
+
+                        <div class="product-action-vertical">
+                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
+                        </div><!-- End .product-action -->
+
+                        <div class="product-action">
+                            <a href="" class="btn-product btn-cart" onclick="addToCart('{{this._id}}')"
+                                title="Add to cart"><span>add to cart</span></a>
+                            <a href="/quickview/{{this._id}}" class="btn-product btn-quickview"
+                                title="Quick view"><span>quick view</span></a>
+                        </div><!-- End .product-action -->
+                    </figure><!-- End .product-media -->
+
+                    <div class="product-body">
+                        <div class="product-cat">
+                            <a href="#">{{this.Category}}</a>
+                        </div><!-- End .product-cat -->
+                        <h3 class="product-title"><a href="/product-page/{{this._id}}">{{this.Name}}</a></h3>
+                        <!-- End .product-title -->
+                        <div class="product-price">
+                            <span class="new-price">₹{{this.Price}}</span>
+                            <span class="old-price">Was ₹{{this.originalPrice}}</span>
+                        </div><!-- End .product-price -->
+                        <div class="ratings-container">
+                            <div class="ratings">
+                                <div class="ratings-val" style="width: 40%;"></div><!-- End .ratings-val -->
+                            </div><!-- End .ratings -->
+                            <span class="ratings-text">( 4 Reviews )</span>
+                        </div><!-- End .rating-container -->
+                    </div><!-- End .product-body -->
+                </div><!-- End .product -->
+            </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+            {{/each}}
+
+        </div><!-- End .row -->
+    </div><!-- End .products -->
+</div><!-- End .container -->

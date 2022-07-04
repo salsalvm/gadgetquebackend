@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <div class="row">
+        <h2 class="text-center">User Login</h2>
+        <div class="col-md-6 m-auto">
+            <form action="/login" method="POST" id="form">
+                {{#if logInErr}}
+                <p class="error text-center text-danger">{{logInErr}}</p>
+                {{/if}}
+                {{#if signupSuccess}}
+                <h5 class="alert alert-success"> {{signupSuccess}} </h5>
+                {{/if}}
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" name="Email" id="email" required>
+                </div>
+                <div>
+                    <p class="text-danger" id="errorEmail"></p>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="Password" id="password" required>
+                </div>
+                <div>
+                    <p class="text-danger" id="errorPassword"></p>
+                </div>
+                <div class="mb-5">
+                    <a href="/otpLogin">Login with otp</a><br>
+                    <a href="/signup">Create new account ?</a>
+                    <button type="submit" class="btn btn-primary float-end">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+</script>

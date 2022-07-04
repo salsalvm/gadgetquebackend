@@ -1,0 +1,130 @@
+<section>
+  <h2>Section title</h2>
+  <div class="table-responsive">
+    <table class="table table-striped table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Mobile</th>
+          <th scope="col">Status</th>
+          <th scope="col">Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+        <tr>
+          <td class="align-middle">{{inc @index}}.</td>
+          <td class="align-middle">{{this.Name}}</td>
+          <td class="align-middle">{{this.Emailaddress}}</td>
+          <td class="align-middle">{{this.Mobile}}</td>
+          <td class="align-middle">
+            {{#if this.userBlocked}}
+            Blocked
+            {{else}}
+            Active
+            {{/if}}
+          </td>
+          <td class="align-middle">
+            {{#if this.userBlocked}}
+            <a class="btn btn-success" onclick="unblockUser('{{this._id}}')">Unblock</a>
+            {{else}}
+            <a class="btn btn-warning" style="width: 82px;" onclick="blockUser('{{this._id}}')">Block</a>
+            {{/if}}
+            <a onclick="return confirm('Do you want to delete User: {{this.Name}}')"
+              href="/admin/delete-user/{{this._id}}" class="btn btn-danger">Delete</a>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+  </main>
+  </div>
+  </div>
+</section>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<script type="text/javascript">
+  // sweet alert for block user
+  function blockUser(id) {
+    swal({
+      title: "Are you sure?",
+      text: "You want to block the user?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willBlock) => {
+        if (willBlock) {
+          $.ajax({
+            url: "/admin/block-user",
+            method: "POST",
+            data: { id: id },
+            success: (result) => {
+              if (result.status) {
+                swal("User Blocked Successfully", {
+                  icon: "success",
+                });
+              }
+              location.href = '/admin/view-users'
+            }
+          });
+        }
+      })
+  }
+  // sweet alert for unblock user
+  function unblockUser(id) {
+    swal({
+      title: "Are you sure?",
+      text: "You want to unblock the user?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willUnblock) => {
+        if (willUnblock) {
+          $.ajax({
+            url: "/admin/unblock-user",
+            method: "POST",
+            data: { id: id },
+            success: (result) => {
+              if (result.status) {
+                swal("User unblocked Successfully", {
+                  icon: "success",
+                });
+              }
+              location.href = '/admin/view-users'
+            }
+          });
+        }
+      })
+  }
+</script>
+
+<script>
+
+  function myFunction() {
+    // Declare variables
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, and hide those who don't match the search query
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
+</script>

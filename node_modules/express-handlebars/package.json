@@ -1,0 +1,73 @@
+{
+  "name": "express-handlebars",
+  "description": "A Handlebars view engine for Express which doesn't suck.",
+  "version": "6.0.3",
+  "homepage": "https://github.com/express-handlebars/express-handlebars",
+  "keywords": [
+    "express",
+    "express3",
+    "handlebars",
+    "view",
+    "layout",
+    "partials",
+    "templates"
+  ],
+  "author": "Eric Ferraiuolo <eferraiuolo@gmail.com> (http://ericf.me/)",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/express-handlebars/express-handlebars.git"
+  },
+  "bugs": {
+    "url": "https://github.com/express-handlebars/express-handlebars/issues"
+  },
+  "engines": {
+    "node": ">=v12.22.9"
+  },
+  "dependencies": {
+    "glob": "^7.2.0",
+    "graceful-fs": "^4.2.9",
+    "handlebars": "^4.7.7"
+  },
+  "main": "dist/index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^8.0.2",
+    "@semantic-release/npm": "^9.0.1",
+    "@semantic-release/release-notes-generator": "^10.0.3",
+    "@types/glob": "^7.2.0",
+    "@types/jest": "^27.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.13.0",
+    "eslint": "^7.32.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "jest-cli": "^27.5.1",
+    "semantic-release": "^19.0.2",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.6.2"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  },
+  "scripts": {
+    "test": "jest --verbose",
+    "test:cover": "jest --coverage",
+    "lint": "eslint .",
+    "build": "tsc"
+  },
+  "license": "BSD-3-Clause"
+}

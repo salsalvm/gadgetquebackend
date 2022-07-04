@@ -1,0 +1,382 @@
+<div class="container-xl px-4 mt-4">
+
+    <nav class="navbar navbar-lg navbar-light bg-light">
+        <div class=" d-flex align-items-center justify-content-end">
+            <a class="nav-item nav-link link-dark active" href="/my-profile">Profile<span
+                    class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link link-dark" href="/my-address">Addresses</a>
+            <a class="nav-item nav-link link-dark" href="/my-orders">My orders</a>
+        </div>
+    </nav>
+
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        <div class="col-xl-4">
+            <!-- Profile picture card-->
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header">Profile Picture</div>
+                <div class="card-body text-center">
+                    <!-- Profile picture image-->
+                    <img class="img-account-profile rounded-circle mb-2"
+                        src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                    <!-- Profile picture help block-->
+                    <div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+                    <!-- Profile picture upload button-->
+                    <button class="btn btn-primary" type="button">Upload new image</button>
+                </div>
+            </div>
+            <hr class="mt-0 mb-2">
+            <div class="col-xl-4 mb-4">
+                <!-- Billing card 1-->
+                <div class="card h-100 border-start-xl border-start-primary">
+                    <div class="card-body">
+                        <div class="small text-muted">Wallet Balance</div>
+                        <div class="h3">₹{{user.wallet}}</div>
+
+                        <a type="button" class="list-group-item list-group-item-action py-2 ripple"
+                            data-bs-toggle="modal" data-bs-target="#myModel" id="shareBtn" data-bs-placement="top"
+                            title="Click Me!"><i class="fas fa-retweet fa-fw me-2"></i><span>Invite and Earn</span></a>
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModel" tabindex="-1" aria-labelledby="myModelLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="myModelLabel">Share Link</h5> <button type="button"
+                                            class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Share this link via</p>
+                                        <div class="d-flex align-items-center icons"> <a
+                                                href="https://www.facebook.com/sharer/sharer.php?u={{referalLink}}"
+                                                class="fs-5 d-flex align-items-center justify-content-center">
+                                                <span class="fab fa-facebook-f"></span> </a> <a
+                                                href="https://twitter.com/i/flow/login"
+                                                class="fs-5 d-flex align-items-center justify-content-center">
+                                                <span class="fab fa-twitter"></span> </a> <a
+                                                href="https://www.instagram.com/accounts/login/"
+                                                class="fs-5 d-flex align-items-center justify-content-center">
+                                                <span class="fab fa-instagram"></span> </a> <a
+                                                href="https://api.whatsapp.com/send?text={{referalLink}}"
+                                                class="fs-5 d-flex align-items-center justify-content-center">
+                                                <span class="fab fa-whatsapp"></span> </a> <a
+                                                href="https://telegram.me/share/url?url={{referalLink}}"
+                                                class="fs-5 d-flex align-items-center justify-content-center">
+                                                <span class="fab fa-telegram-plane"></span> </a> </div>
+                                        <p>Or copy link</p>
+                                        <div class="field d-flex align-items-center justify-content-between">
+                                            <span class="fas fa-link text-center"></span> <input type="text"
+                                                id="myInput" value="{{referalLink}}"> <button
+                                                onclick="myFunction()">Copy</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <!-- Account details card-->
+            <div class="card mb-4">
+                <div class="card-header">Account Details</div>
+                {{#if profileMsg}}
+                <span class="text-success">{{profileMsg}}</span>
+                {{/if}}
+                <div class="card-body">
+                    <form action="/update-details" method="post">
+                        <!-- Form Group (username)-->
+                        <div class="col-md-6 mb-1">
+                            <label class="small mb-1" for="inputUsername">Name</label>
+                            <input class="form-control" id="inputUsername" name="Name" type="text"
+                                placeholder="Enter your Name" value="{{user.Name}}" required>
+                            <input type="text" name="userId" value="{{user._id}}" hidden>
+                        </div>
+                        <!-- Form Group (email address)-->
+                        <div class="col-md-6 mb-1">
+                            <label class="small mb-1" for="inputEmailAddress">Email address</label>
+                            <input class="form-control" id="inputEmailAddress" name="Emailaddress" type="email"
+                                placeholder="Enter your email address" value="{{user.Emailaddress}}" required>
+                        </div>
+                        <!-- Save changes button-->
+                        <button class="btn btn-primary" type="submit">Save changes</button>
+                    </form>
+
+                    {{!-- <form>
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-1 mt-2">
+                            <!-- Form Group (phone number)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1" for="inputPhone">Phone number</label>
+                                <input class="form-control" id="inputPhone" type="tel"
+                                    placeholder="Enter your phone number" value="555-123-4567">
+                            </div>
+                        </div>
+                        <!-- Save changes button-->
+                        <button class="btn btn-primary" type="button">Update</button>
+                    </form> --}}
+
+                    <div class="card-header mt-4">Change Password</div>
+                    {{#if errPassMsg}}
+                    <span class="text-danger">{{errPassMsg}}</span>
+                    {{/if}}
+
+                    <form action="/change-password" method="post">
+                        <!-- Form Group (username)-->
+                        <div class="col-md-6 mt-" 1>
+                            <label class="small mb-1" for="inputUsername">Current password</label>
+                            <input class="form-control" id="inputUsername" name="currentPass" type="password"
+                                placeholder="Enter current password" required>
+                            <input type="text" name="userId" value="{{user._id}}" hidden>
+                        </div>
+                        <!-- Form Group (email address)-->
+                        <div class="col-md-6 mb-1">
+                            <label class="small mb-1">New Password</label>
+                            <input class="form-control" id="inputEmailAddress" name="newPass" type="password"
+                                placeholder="Enter new password" required>
+                        </div>
+                        <!-- Save changes button-->
+                        <button class="btn btn-primary" type="submit">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function (e) {
+        let field = document.querySelector('.field');
+        var copyText = document.getElementById("myInput");
+        let copyBtn = document.querySelector('.field button');
+
+        copyBtn.onclick = () => {
+            copyText.select();
+            copyText.setSelectionRange(0, 99999)
+            if (document.execCommand("copy")) {
+                field.classList.add('active');
+                copyBtn.innerText = 'Copied';
+                setTimeout(() => {
+                    field.classList.remove('active');
+                    copyBtn.innerText = 'Copy';
+                }, 3500)
+            }
+        }
+    })
+</script>
+
+
+
+<style>
+    .img-account-profile {
+        height: 10rem;
+    }
+
+    .rounded-circle {
+        border-radius: 50% !important;
+    }
+
+    .card {
+        box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
+    }
+
+    .card .card-header {
+        font-weight: 500;
+    }
+
+    .card-header:first-child {
+        border-radius: 0.35rem 0.35rem 0 0;
+    }
+
+    .card-header {
+        padding: 1rem 1.35rem;
+        margin-bottom: 0;
+        background-color: rgba(33, 40, 50, 0.03);
+        border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+    }
+
+    .form-control,
+    .dataTable-input {
+        display: block;
+        width: 100%;
+        padding: 0.875rem 1.125rem;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 1;
+        color: #69707a;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #c5ccd6;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 0.35rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .nav-borders .nav-link.active {
+        color: #0061f2;
+        border-bottom-color: #0061f2;
+    }
+
+    .nav-borders .nav-link {
+        color: #69707a;
+        border-bottom-width: 0.125rem;
+        border-bottom-style: solid;
+        border-bottom-color: transparent;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+
+    /* #shareBtn {
+    letter-spacing: 2px;
+    font-weight: 600;
+    box-shadow: none;
+    background-color: #eee;
+    color: #7d2ae8;
+    border: 2
+} */
+
+    .modal {
+        top: 20%
+    }
+
+    .btn-close {
+        box-shadow: none;
+        border: none;
+        outline: none
+    }
+
+    .modal-body .icons {
+        margin: 15px 0px 20px 0px
+    }
+
+    .modal-body .icons a {
+        text-decoration: none;
+        border: 1px solid transparent;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 20px;
+        transition: all 0.3s ease-in-out
+    }
+
+    .modal-body .icons a:nth-child(1) {
+        color: #1877F2;
+        border-color: #B7D4FB
+    }
+
+    .modal-body .icons a:nth-child(1):hover {
+        background-color: #1877F2;
+        color: #fff
+    }
+
+    .modal-body .icons a:nth-child(2) {
+        color: #46C1F6;
+        border-color: #b6e7fc
+    }
+
+    .modal-body .icons a:nth-child(2):hover {
+        background-color: #46C1F6;
+        color: #fff
+    }
+
+    .modal-body .icons a:nth-child(3) {
+        color: #e1306c;
+        border-color: #f5bccf
+    }
+
+    .modal-body .icons a:nth-child(3):hover {
+        background-color: #e1306c;
+        color: #fff
+    }
+
+    .modal-body .icons a:nth-child(4) {
+        color: #25d366;
+        border-color: #bef4d2
+    }
+
+    .modal-body .icons a:nth-child(4):hover {
+        background-color: #25d366;
+        color: #fff
+    }
+
+    .modal-body .icons a:nth-child(5) {
+        color: #0088cc;
+        border-color: #b3e6ff
+    }
+
+    .modal-body .icons a:nth-child(5):hover {
+        background-color: #0088cc;
+        color: #fff
+    }
+
+    .modal-body .icons a:hover {
+        border-color: transparent
+    }
+
+    .modal-body .icons a span {
+        transition: all 0.09s ease-in-out
+    }
+
+    .modal-body .icons a:hover span {
+        transform: scaleX(1.1)
+    }
+
+    .modal-body .field {
+        margin: 15px 0px -5px 0px;
+        height: 45px;
+        border: 1px solid #dfdfdf;
+        border-radius: 5px;
+        padding: 0 5px
+    }
+
+    .modal-body .field.active {
+        border-color: #7d2ae8
+    }
+
+    .field span {
+        width: 50px;
+        font-size: 1.1rem
+    }
+
+    .field.active span {
+        color: #7d2ae8
+    }
+
+    .field input {
+        border: none;
+        outline: none;
+        font-size: 0.89rem;
+        width: 100%;
+        height: 100%
+    }
+
+    .field button {
+        padding: 5px 16px;
+        color: #fff;
+        background: #7d2ae8;
+        border: 2px solid transparent;
+        border-radius: 5px;
+        font-weight: 500
+    }
+
+    @media (max-width: 330px) {
+        .modal-body .icons a {
+            margin-right: 15px;
+            width: 35px;
+            height: 35px
+        }
+    }
+</style>

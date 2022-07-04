@@ -1,0 +1,81 @@
+<section>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="text-center">Edit Product</h2>
+                <form action="/admin/edit-product/{{product._id}}" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="Name" value="{{product.Name}}">
+                    </div>
+                    <div class="mb-3">
+                        {{!-- <label for="" class="form-label">Category</label> --}}
+                        <input type="text" class="form-control" name="Category" value="{{product.Category}}" hidden> 
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Price</label>
+                        <input type="text" class="form-control" name="originalPrice" value="{{product.originalPrice}}" onkeypress='validate(event)'>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Price</label>
+                        <input type="text" class="form-control" name="Price" value="{{product.Price}}" onkeypress='validate(event)'>
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Description</label>
+                        <input type="text" class="form-control" name="Description" value="{{product.Description}}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Image</label>
+                        <img src="/product-image/{{product._id}}/{{product.imageId}}_1.jpg" alt="" style="width: 100px; height:auto" id="imgView">
+                        <input type="file" class="form-control" name="Image"  onchange="viewImage(event)" >
+                    </div>
+                     <div class="mb-3">
+                        <label for="" class="form-label">Image2</label>
+                        <img src="/product-image/{{product._id}}/{{product.imageId}}_2.jpg" alt="" style="width: 100px; height:auto" id="imgView2">
+                        <input type="file" class="form-control" name="Image2" onchange="viewImage2(event)">
+                    </div>
+                    <div class="mb-3">
+                        <label for="" class="form-label">Image3</label>
+                        <img src="/product-image/{{product._id}}/{{product.imageId}}_3.jpg" alt="" style="width: 100px; height:auto" id="imgView3">
+                        <input type="file" class="form-control" name="Image3" onchange="viewImage3(event)">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    function viewImage(event){
+        document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])
+    }
+    function viewImage2(event){
+        document.getElementById('imgView2').src=URL.createObjectURL(event.target.files[0])
+    }
+    function viewImage3(event){
+        document.getElementById('imgView3').src=URL.createObjectURL(event.target.files[0])
+    }
+</script>
+
+
+<script>
+  function validate(evt) {
+  var theEvent = evt || window.event;
+
+  // Handle paste
+  if (theEvent.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[0-9]|\./;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
+}
+</script>

@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h2 class="text-center text-dark mt-3">Otp Login</h2>
+      {{!-- {{#if otpErr}}
+      <p class="text-center mb-5 text-danger">{{otpErr}}</p>
+      {{/if}}
+      {{#if reotp}}
+      <p class="text-center mb-5 text-danger">{{reotp}}</p>
+      {{/if}} --}}
+      {{!-- <h3 class="alert-danger text-center otperror" id="error">Invalid OTP</h3> --}}
+      <div class="card my-5">
+
+        <div class="card-body cardbody-color p-lg-5" >
+
+          <div class="text-center">
+            <img src="https://cdn.pixabay.com/photo/2016/03/31/19/56/avatar-1295397__340.png"
+              class="img-fluid profile-image-pic img-thumbnail rounded-circle my-3" width="200px" alt="profile">
+          </div>
+
+          <p class="text-dark">OTP send to mobile {{otpPhone}}</p>
+          <div class="mb-3">
+            <input type="number" class="form-control" id="otp" aria-describedby="emailHelp" placeholder="otp"
+              >
+              <input class="m-2 text-center form-control rounded" type="text" id="phonenumber2" name="phonenumber" value="{{signupPhone}}" hidden />
+          </div>
+          <div class="text-center"><button type="submit" class="btn btn-color px-5 mb-5 w-100" onclick="otpform()">submit otp</button></div>
+          <a href="/resendOtp/{{otpPhone}}">resend otp</a><br>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function otpform(){
+    
+    var otpnumber = document.getElementById("otp").value;
+    var phoneNumber = document.getElementById("phonenumber2").value;
+$.ajax({
+    url:'/signupOtp?phonenumber='+phoneNumber+'&otpnumber='+otpnumber,
+    method:'get',
+    success:(response)=>{
+        if(response){
+            window.location.replace("/login");
+        }else{
+            document.getElementById("error").classList.remove("otperror");
+        }
+    }
+})
+}
+</script>
+
+
+<style>
+  .btn-color {
+    background-color: #0e1c36;
+    color: #fff;
+
+  }
+
+  .profile-image-pic {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+  }
+
+
+
+  .cardbody-color {
+    background-color: #ebf2fa;
+  }
+
+  a {
+    text-decoration: none;
+  }
+</style>

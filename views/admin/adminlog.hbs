@@ -1,0 +1,23 @@
+<div class="container mt-5">
+    <div class="row">
+        <h2 class="text-center">Admin Login</h2>
+        <div class="col-md-6 m-auto">
+            <form action="/admin/adminlog" method="POST">
+            {{#if logInErr}}
+                <p class="error text-center text-danger">{{logInErr}}</p>
+            {{/if}}
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" name="email">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" name="password">
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary float-end">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

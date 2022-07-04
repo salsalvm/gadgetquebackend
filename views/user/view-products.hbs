@@ -1,0 +1,324 @@
+<div class="intro-slider-container mb-5">
+    <div class="intro-slider owl-carousel owl-theme owl-nav-inside owl-light" data-toggle="owl" data-owl-options='{
+                        "dots": true,
+                        "nav": false, 
+                        "responsive": {
+                            "1200": {
+                                "nav": true,
+                                "dots": false
+                            }
+                        }
+                    }'>
+        <div class="intro-slide" style="background-image: url(/assets/images/demos/demo-4/slider/slide-1.png);">
+            <div class="container intro-content">
+                <div class="row justify-content-end">
+                    <div class="col-auto col-sm-7 col-md-6 col-lg-5">
+                        <h3 class="intro-subtitle text-third">Deals and Promotions</h3><!-- End .h3 intro-subtitle -->
+                        <h1 class="intro-title">Beats by</h1>
+                        <h1 class="intro-title">Dre Studio 3</h1><!-- End .intro-title -->
+
+                        <div class="intro-price">
+                            <sup class="intro-old-price">₹49,999</sup>
+                            <span class="text-third">
+                                ₹35,999<sup>.99</sup>
+                            </span>
+                        </div><!-- End .intro-price -->
+
+                        <a href="" class="btn btn-primary btn-round">
+                            <span>Shop More</span>
+                            <i class="icon-long-arrow-right"></i>
+                        </a>
+                    </div><!-- End .col-lg-11 offset-lg-1 -->
+                </div><!-- End .row -->
+            </div><!-- End .intro-content -->
+        </div><!-- End .intro-slide -->
+
+        <div class="intro-slide" style="background-image: url(/assets/images/demos/demo-4/slider/slide-2.png);">
+            <div class="container intro-content">
+                <div class="row justify-content-end">
+                    <div class="col-auto col-sm-7 col-md-6 col-lg-5">
+                        <h3 class="intro-subtitle text-primary">New Arrival</h3><!-- End .h3 intro-subtitle -->
+                        <h1 class="intro-title">Apple iPad Pro <br>12.9 Inch, 64GB </h1><!-- End .intro-title -->
+
+                        <div class="intro-price">
+                            <sup>Today:</sup>
+                            <span class="text-primary">
+                                ₹74,000<sup>.99</sup>
+                            </span>
+                        </div><!-- End .intro-price -->
+
+                        <a href="/" class="btn btn-primary btn-round">
+                            <span>Shop More</span>
+                            <i class="icon-long-arrow-right"></i>
+                        </a>
+                    </div><!-- End .col-md-6 offset-md-6 -->
+                </div><!-- End .row -->
+            </div><!-- End .intro-content -->
+        </div><!-- End .intro-slide -->
+    </div><!-- End .intro-slider owl-carousel owl-simple -->
+
+    <span class="slider-loader"></span><!-- End .slider-loader -->
+</div><!-- End .intro-slider-container -->
+
+
+<div class="container">
+    <h2 class="title text-center mb-4">Explore Popular Categories</h2><!-- End .title text-center -->
+
+    <div class="cat-blocks-container">
+        <div class="row">
+            {{#each category}}
+            <div class="col-6 col-sm-4 col-lg-2">
+                <a href="/categoryWise/{{this.Category}}" class="cat-block">
+                    <figure>
+                        <span>
+                            <img src="/category-image/{{this._id}}.jpg" alt="Category image">
+                        </span>
+                    </figure>
+                    <h3 class="cat-block-title">{{this.Category}}</h3><!-- End .cat-block-title -->
+                </a>
+            </div><!-- End .col-sm-4 col-lg-2 -->
+            {{/each}}
+        </div><!-- End .row -->
+    </div><!-- End .cat-blocks-container -->
+</div><!-- End .container -->
+
+<div class="mb-4"></div><!-- End .mb-4 -->
+
+
+<div class="container">
+    {{!-- {{#if allCoupons}} --}}
+    <div class="row justify-content-center">
+        {{#each allCoupons}}
+        <div class="col-md-6 col-lg-4">
+            <div class="banner banner-overlay banner-overlay-light">
+                <a href="#">
+                    <img src="/assets/images/demos/demo-4/banners/banner-1.png" alt="Banner">
+                </a>
+
+                <div class="banner-content">
+                    <h4 class="banner-subtitle"><a href="#">Smart Offer</a></h4><!-- End .banner-subtitle -->
+                    <h3 class="banner-title"><a href="#">{{this.Offer}}% Off Use <br>Code: <span>{{this.Coupon}}</span></a></h3>
+                    <!-- End .banner-title -->
+                    <a onclick="copyToClipboard('{{this.Coupon}}')" class="banner-link">Copy Code<i class="icon-long-arrow-right"></i></a>
+                </div><!-- End .banner-content -->
+            </div><!-- End .banner -->
+        </div><!-- End .col-md-4 -->
+        {{/each}}
+        {{!-- <div class="col-md-6 col-lg-4">
+            <div class="banner banner-overlay banner-overlay-light">
+                <a href="#">
+                    <img src="/assets/images/demos/demo-4/banners/banner-2.jpg" alt="Banner">
+                </a>
+
+                <div class="banner-content">
+                    <h4 class="banner-subtitle"><a href="#">Time Deals</a></h4><!-- End .banner-subtitle -->
+                    <h3 class="banner-title"><a href="#"><strong>Bose SoundSport</strong> <br>Time Deal -30%</a></h3>
+                    <!-- End .banner-title -->
+                    <a href="#" class="banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                </div><!-- End .banner-content -->
+            </div><!-- End .banner -->
+        </div><!-- End .col-md-4 --> --}}
+
+        {{!-- <div class="col-md-6 col-lg-4">
+            <div class="banner banner-overlay banner-overlay-light">
+                <a href="#">
+                    <img src="/assets/images/demos/demo-4/banners/banner-3.png" alt="Banner">
+                </a>
+
+                <div class="banner-content">
+                    <h4 class="banner-subtitle"><a href="#">Clearance</a></h4><!-- End .banner-subtitle -->
+                    <h3 class="banner-title"><a href="#"><strong>GoPro - Fusion 360</strong> <br>Save $70</a></h3>
+                    <!-- End .banner-title -->
+                    <a href="#" class="banner-link">Shop Now<i class="icon-long-arrow-right"></i></a>
+                </div><!-- End .banner-content -->
+            </div><!-- End .banner -->
+        </div><!-- End .col-lg-4 --> --}}
+    </div><!-- End .row -->
+    {{!-- {{/if}} --}}
+</div><!-- End .container -->
+
+
+
+<div class="container">
+    <ul class="nav nav-pills nav-big nav-border-anim justify-content-center mb-2 mb-md-3" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="products-featured-link" data-toggle="tab" href="#products-featured-tab"
+                role="tab" aria-controls="products-featured-tab" aria-selected="true">Featured</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="products-sale-link" data-toggle="tab" href="#products-sale-tab" role="tab"
+                aria-controls="products-sale-tab" aria-selected="false">On Sale</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="products-top-link" data-toggle="tab" href="#products-top-tab" role="tab"
+                aria-controls="products-top-tab" aria-selected="false">Top Rated</a>
+        </li>
+    </ul>
+
+    <div class="tab-content tab-content-carousel">
+        <div class="tab-pane p-0 fade show active" id="products-featured-tab" role="tabpanel"
+            aria-labelledby="products-featured-link">
+            <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl"
+                data-owl-options='{
+                                "nav": false, 
+                                "dots": true,
+                                "margin": 20,
+                                "loop": false,
+                                "responsive": {
+                                    "0": {
+                                        "items":2
+                                    },
+                                    "480": {
+                                        "items":2
+                                    },
+                                    "768": {
+                                        "items":3
+                                    },
+                                    "992": {
+                                        "items":4
+                                    },
+                                    "1200": {
+                                        "items":4,
+                                        "nav": true,
+                                        "dots": false
+                                    }
+                                }
+                            }'>
+                {{#each products}}
+                <div class="product product-2">
+                    <figure class="product-media">
+                        <a href="#">
+                            <img src="/product-image/{{this._id}}/{{this.imageId}}_1.jpg" alt="Product image"
+                                class="product-image">
+                            <img src="/product-image/{{this._id}}/{{this.imageId}}_2.jpg" alt="Product image"
+                                class="product-image-hover">
+                        </a>
+
+                        <div class="product-action-vertical">
+                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"
+                                title="Add to wishlist"><span>add to wishlist</span></a>
+                        </div><!-- End .product-action -->
+
+                        <div class="product-action ">
+                            <a onclick="addToCart('{{this._id}}')" style="cursor:pointer" class="btn-product btn-cart"><span>add to
+                                    cart</span></a>
+                        </div><!-- End .product-action -->
+                    </figure><!-- End .product-media -->
+
+                    <div class="product-body">
+                        <div class="product-cat">
+                            <a href="/categoryWise/{{this.Category}}">{{this.Category}}</a>
+                        </div><!-- End .product-cat -->
+                        <h3 class="product-title"><a href="/product-page/{{this._id}}">{{this.Name}}</a></h3>
+                        <!-- End .product-title -->
+                        <div class="product-price">
+                            <span class="new-price">Now ₹{{this.originalPrice}}</span>
+                            <span class="old-price">Was ₹{{this.Price}}</span>
+                        </div><!-- End .product-price -->
+                        <div class="product-nav product-nav-thumbs">
+                            <a href="#" class="active">
+                                <img src="/product-image/{{this._id}}/{{this.imageId}}_1.jpg" alt="product desc">
+                            </a>
+                            <a href="#">
+                                <img src="/product-image/{{this._id}}/{{this.imageId}}_2.jpg" alt="product desc">
+                            </a>
+                            <a href="#">
+                                <img src="/product-image/{{this._id}}/{{this.imageId}}_3.jpg" alt="product desc">
+                            </a>
+                        </div>
+
+                    </div><!-- End .product-body -->
+                </div><!-- End .product -->
+                {{/each}}
+
+            </div><!-- End .owl-carousel -->
+        </div><!-- .End .tab-pane -->
+    </div><!-- End .tab-content -->
+</div><!-- End .container -->
+
+
+<div class="container mt-3">
+    <div class="cta cta-border mb-5" style="background-image: url(/assets/images/demos/demo-4/bg-1.jpg);">
+        <img src="/assets/images/demos/demo-4/camera.png" alt="camera" class="cta-img">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="cta-content">
+                    <div class="cta-text text-right text-white">
+                        <p>Shop Today’s Deals <br><strong>Awesome Made Easy. HERO7 Black</strong></p>
+                    </div><!-- End .cta-text -->
+                    <a href="#" class="btn btn-primary btn-round"><span>Shop Now - $429.99</span><i
+                            class="icon-long-arrow-right"></i></a>
+                </div><!-- End .cta-content -->
+            </div><!-- End .col-md-12 -->
+        </div><!-- End .row -->
+    </div><!-- End .cta -->
+</div><!-- End .container -->
+
+
+<div class="container for-you">
+    <div class="heading heading-flex mb-3">
+        <div class="heading-left">
+            <h2 class="title">Recommendation For You</h2><!-- End .title -->
+        </div><!-- End .heading-left -->
+    </div><!-- End .heading -->
+
+    <div class="products">
+        <div class="row justify-content-center">
+            {{#each products}}
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product product-2">
+                    <figure class="product-media">
+                        <span class="product-label label-circle label-sale">Sale</span>
+                        <a>
+                            <img src="/product-image/{{this._id}}/{{this.imageId}}_1.jpg" alt="Product image"
+                                class="product-image">
+                        </a>
+
+                        <div class="product-action-vertical">
+                            <a href="#" class="btn-product-icon btn-wishlist" title="Add to wishlist"></a>
+                        </div><!-- End .product-action -->
+
+                        <div class="product-action">
+                            <a class="btn-product btn-cart" style="cursor:pointer" onclick="addToCart('{{this._id}}')"
+                                title="Add to cart"><span>add to cart</span></a>
+                            <a href="/quickview/{{this._id}}" class="btn-product btn-quickview"
+                                title="Quick view"><span>quick view</span></a>
+                        </div><!-- End .product-action -->
+                    </figure><!-- End .product-media -->
+
+                    <div class="product-body">
+                        <div class="product-cat">
+                            <a href="#">{{this.Category}}</a>
+                        </div><!-- End .product-cat -->
+                        <h3 class="product-title"><a href="/product-page/{{this._id}}">{{this.Name}}</a></h3>
+                        <!-- End .product-title -->
+                        <div class="product-price">
+                            <span class="new-price">₹{{this.Price}}</span>
+                            <span class="old-price">Was ₹{{this.originalPrice}}</span>
+                        </div><!-- End .product-price -->
+                        <div class="ratings-container">
+                            <div class="ratings">
+                                <div class="ratings-val" style="width: 40%;"></div><!-- End .ratings-val -->
+                            </div><!-- End .ratings -->
+                            <span class="ratings-text">( 4 Reviews )</span>
+                        </div><!-- End .rating-container -->
+                    </div><!-- End .product-body -->
+                </div><!-- End .product -->
+            </div><!-- End .col-sm-6 col-md-4 col-lg-3 -->
+            {{/each}}
+
+        </div><!-- End .row -->
+    </div><!-- End .products -->
+</div><!-- End .container -->
+
+
+<script> 
+function copyToClipboard(text) {
+    var sampleTextarea = document.createElement("textarea");
+    document.body.appendChild(sampleTextarea);
+    sampleTextarea.value = text; //save main text in it
+    sampleTextarea.select(); //select textarea contenrs
+    document.execCommand("copy");
+    document.body.removeChild(sampleTextarea);
+}
+</script>

@@ -1,0 +1,149 @@
+{{!-- <header class="py-3 mb-3 border-bottom">
+    <div class="container-fluid d-grid gap-3 align-items-center" style="grid-template-columns: 1fr 2fr;">
+        <a href="/" class="navbar-brand text-decoration-none text-dark">GadgetStore</a>
+
+        <div class="d-flex align-items-center justify-content-end">
+            <form class="w-60 me-3">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            </form>
+
+            <div class="flex-shrink-0 dropdown me-3">
+                <a href="#" class="d-block link-dark text-decoration-none " id="dropdownUser2" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fas fa-bell"></i>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="#">offer code for zomato 88767t</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">offer</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">offer</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">offer</a></li>
+                </ul>
+            </div>
+
+            <span class="badge bg-danger rounded-pill" id="cart-count">{{cartCount}}</span>
+            <a class="text-reset me-3" href="/cart">
+                <i class="fas fa-shopping-cart"></i>
+
+            </a>
+
+
+            <div class="flex-shrink-0 dropdown">
+                <a href="#" class="d-block link-dark text-decoration-none " id="dropdownUser2" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    {{#if user}}
+                    <i class="fa-solid fa-user-check"></i>
+                    {{else}}
+                    <i class="fas fa-user"></i>
+                    {{/if}}
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                    <li><a class="dropdown-item" href="/my-profile">My Profile</a></li>
+                    <li><a class="dropdown-item" href="/my-orders">My Orders</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    {{#if user}}
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    {{else}}
+                    <li><a class="dropdown-item" href="/login">Login</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </div>
+    </div>
+</header> --}}
+
+<header class="header header-intro-clearance header-4">
+
+    <div class="header-middle">
+        <div class="container">
+            <div class="header-left">
+                {{!-- <button class="mobile-menu-toggler">
+                    <span class="sr-only">Toggle mobile menu</span>
+                    <i class="icon-bars"></i>
+                </button> --}}
+
+                <a href="/" class="logo">
+                    {{!-- <img src="/images/gadgetsquelogo.png" alt="gadgetsque" width="105" height="25"> --}}
+                    <h4><i class="fa-solid fa-microchip" style="color: black;"></i><strong>GadgetsQue</strong></h4>
+                </a>
+            </div><!-- End .header-left -->
+
+            <div class="header-center">
+                <div class="header-search header-search-extended header-search-visible d-none d-lg-block">
+                    <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
+                    <form action="#" method="get">
+                        <div class="header-search-wrapper search-wrapper-wide">
+                            <label for="q" class="sr-only">Search</label>
+                            <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                            <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..."
+                                required>
+                        </div><!-- End .header-search-wrapper -->
+                    </form>
+                </div><!-- End .header-search -->
+            </div>
+
+            <div class="header-right">
+                <div class="dropdown compare-dropdown">
+                    <a href="#" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false" data-display="static" title="Compare Products"
+                        aria-label="Compare Products">
+                        <div class="icon">
+                            {{#if user}}
+                            <i class="fa-solid fa-user-check"></i>
+                            {{else}}
+                            <i class="fas fa-user"></i>
+                            {{/if}}
+                        </div>
+                        <p>Profile</p>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <ul class="compare-products">
+                    <li><a class="dropdown-item" href="/my-profile">My Profile</a></li>
+                    <li><a class="dropdown-item" href="/my-orders">My Orders</a></li>
+                        </ul>
+
+                        <div class="compare-actions">
+                            {{#if user}}
+                    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    {{else}}
+                    <li><a class="dropdown-item" href="/login">Login</a></li>
+                    {{/if}}
+                        </div>
+                    </div><!-- End .dropdown-menu -->
+                </div><!-- End .compare-dropdown -->
+
+                {{!-- <div class="wishlist">
+                    <a href="/wishlist.html" title="Wishlist">
+                        <div class="icon">
+                            <i class="icon-heart-o"></i>
+                            <span class="wishlist-count badge">3</span>
+                        </div>
+                        <p>Wishlist</p>
+                    </a>
+                </div><!-- End .compare-dropdown --> --}}
+
+                <div class="dropdown cart-dropdown">
+                    <a href="/cart" class="dropdown-toggle"  
+                        aria-expanded="false" >
+                        <div class="icon">
+                            <i class="icon-shopping-cart"></i>
+                            <span class="cart-count">{{cartCount}}</span>
+                        </div>
+                        <p>Cart</p>
+                    </a>
+                </div><!-- End .cart-dropdown -->
+            </div><!-- End .header-right -->
+        </div><!-- End .container -->
+    </div><!-- End .header-middle -->
+</header>

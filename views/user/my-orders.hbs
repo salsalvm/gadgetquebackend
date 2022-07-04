@@ -1,0 +1,124 @@
+<div class="container-xl px-4 mt-4">
+
+  <nav class="navbar navbar-lg navbar-light bg-light">
+    <div class=" d-flex align-items-center justify-content-end">
+      <a class="nav-item nav-link link-dark active" href="/my-profile">Profile<span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link link-dark" href="/my-address">Addresses</a>
+      <a class="nav-item nav-link link-dark" href="/my-orders">My orders</a>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <div class="d-flex justify-content-center row">
+      <div class="col-md-10">
+        <div class="rounded">
+          <div class="table-responsive table-borderless">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="text-center">Created</th>
+                  <th></th>
+                  <th>Order #</th>
+                  <th>Address</th>
+                  <th>status</th>
+                  <th>Total</th>
+                  <th>Method</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="table-body">
+                {{#each orders}}
+                <tr class="cell-1">
+                  <td>{{this.Date}}</td>
+                  <td></td>
+                  <td>{{this._id}}</td>
+                  <td>{{this.deliveryDetails.address}}</td>
+                  <td>
+                    {{#if this.cancelled}}
+                    <span class="badge badge-danger">{{this.status}}</span>
+                    {{else}}
+                    {{#if this.delivered}}
+                    <span class="badge badge-success">{{this.status}}</span>
+                    {{else}}
+                    <span class="badge badge-primary">{{this.status}}</span>
+                    {{/if}}
+                    {{/if}}
+                  </td>
+                  <td>{{this.totalAmount}}</td>
+                  <td>{{this.paymentMethod}}</td>
+                  <td>
+                    <a href="/view-order-products/{{this._id}}" class="btn btn-primary text-decoration-none">View
+                      Products</a>
+                    {{#if this.cancelled}}
+
+                    {{else}}
+                    {{#if this.delivered}}
+                    {{else}}
+                    <a href="/cancel-order/{{this._id}}" onclick="return confirm('Do you want to cancel this order')"
+                      class="btn btn-danger text-decoration-none">Cancel</a>
+                    {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                {{/each}}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css?family=Assistant');
+
+  body {
+    background: #eee;
+    font-family: Assistant, sans-serif;
+  }
+
+  .cell-1 {
+    border-collapse: separate;
+    border-spacing: 0 4em;
+    background: #fff;
+    border-bottom: 5px solid transparent;
+    /*background-color: gold;*/
+    background-clip: padding-box;
+  }
+
+  thead {
+    background: #dddcdc;
+  }
+
+  .toggle-btn {
+    width: 40px;
+    height: 21px;
+    background: grey;
+    border-radius: 50px;
+    padding: 3px;
+    cursor: pointer;
+    -webkit-transition: all 0.3s 0.1s ease-in-out;
+    -moz-transition: all 0.3s 0.1s ease-in-out;
+    -o-transition: all 0.3s 0.1s ease-in-out;
+    transition: all 0.3s 0.1s ease-in-out;
+  }
+
+  .toggle-btn>.inner-circle {
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 50%;
+    -webkit-transition: all 0.3s 0.1s ease-in-out;
+    -moz-transition: all 0.3s 0.1s ease-in-out;
+    -o-transition: all 0.3s 0.1s ease-in-out;
+    transition: all 0.3s 0.1s ease-in-out;
+  }
+
+  .toggle-btn.active {
+    background: blue !important;
+  }
+
+  .toggle-btn.active>.inner-circle {
+    margin-left: 19px;
+  }
+</style>

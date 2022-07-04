@@ -1,0 +1,162 @@
+<div class="container col-5 mt-3 mb-5 justify-content-center">
+  <div class="signup__form row">
+    <form action="/admin/category-offer" class="col" id="addOfferForm" method="post">
+      <div class="row">
+        <div class="col">
+          <h3 class="bg-gray-300 p-4 text-left font-weight-bold">Category Offer</h3>
+          <div class="px-3 px-4">
+            <div class="col">
+              <div class="signup__input">
+                <p>Category Name: </p>
+                <select class="form-select" name="offerCategory" aria-label="Default select example" id="offerProduct" required>
+                  <option selected disabled>Select</option>
+                  {{#each allCategory}}
+                  <option value="{{this.Category}}">{{this.Category}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+            <div class="col">
+              <label for="inputEmail4" class="mt-3">Offer Percentage %:</label>
+              <input type="text" class="form-control" name="discount" id="discount" placeholder="Offer" required>
+            </div>
+            <div class="col">
+              <label for="inputEmail4" class="mt-3">Start Date:</label><br>
+              <input type="date" name="startDate" id="startDate" onchange="getStartDate()" required>
+            </div>
+            <div class="col">
+              <label for="inputEmail4" class="mt-3">Expiry Date:</label><br>
+              <input type="date" name="expiryDate" id="expiryDate" required>
+            </div>
+          </div>
+          <div class="col">
+            <div class="signup__input">
+              <p> </p>
+              <button class="btn btn-success float-end" type="submit" style="border-radius: 30px;">
+                ADD OFFER
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  </form>
+</div>
+</div>
+
+
+
+
+
+<div class="text-center py-3 bg-green-200">
+
+  <div class="cover-container">
+    <main class="px-3">
+      <h1>View Category Offers</h1>
+    </main>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped" id="productOfferTable">
+    <thead>
+      <tr>
+        <th scope="col">No</th>
+                <th scope="col">Category</th>
+        <th scope="col">Discount %</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each allCatOffers}}
+      <tr>
+        <td class="align-middle">{{@index}}</td>
+        <td class="align-middle"> {{this.data.offerCategory}} </td>
+        <td class="align-middle"> {{this.data.discount}} </td>
+        <td class="align-middle"> {{this.data.startDate}} </td>
+        <td class="align-middle"> {{this.data.expiryDate}} </td>
+        <td class="align-middle">
+          <a onclick="deleteOffer('{{this._id}}')" class="text-danger"><i
+              class="fas fa-trash-alt"></i></a>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+  $('#discount').keyup(function(){
+  if ($(this).val() > 90){
+    alert("No numbers above 90");
+    $(this).val('90');
+  }
+});
+
+  function deleteOffer(offerId) {
+    console.log('called')
+    swal({
+      title: "Are you sure?",
+      text: "Do you want to delete the offer?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          $.ajax({
+            url: "/admin/delete-category-offer",
+            method: "POST",
+            data: {offerId},
+            success: (result) => {
+              if (result.status) {
+                swal("Offer deleted Successfully", {
+                  icon: "success",
+                });
+              }
+              location.href = '/admin/category-offer'
+            }
+          });
+        }
+      })
+  }
+
+
+
+  $(function () {
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if (month < 10)
+      month = '0' + month.toString();
+    if (day < 10)
+      day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+    $('#startDate').attr('min', maxDate);
+  });
+  function getStartDate() {
+    var dtToday = new Date();
+
+    var month = dtToday.getMonth() + 1;
+    var day = dtToday.getDate();
+    var year = dtToday.getFullYear();
+    if (month < 10)
+      month = '0' + month.toString();
+    if (day < 10)
+      day = '0' + day.toString();
+
+    var maxDate = year + '-' + month + '-' + day;
+
+    let startDate = document.getElementById('startDate').value
+    document.getElementById('expiryDate').setAttribute('min', startDate)
+  }
+
+</script>
