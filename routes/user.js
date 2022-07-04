@@ -83,8 +83,8 @@ router.get('/', verifyBlock, async function (req, res, next) {
   console.log(allCoupons);
   productHelper.getAllProducts().then((products) => {
     productHelper.getAllCategory().then((category) => {
-      res.render('user/view-products', { products, category, user, cartCount,allCoupons,homePage:true});
-      res.send({ products, category, user, cartCount,allCoupons,homePage:true})
+      // res.render('user/view-products', { products, category, user, cartCount,allCoupons,homePage:true});
+      res.send({ products, category, user, cartCount, allCoupons, homePage: true })
     })
   })
 });
@@ -310,7 +310,7 @@ router.get('/product-page/:id', verifyBlock, async (req, res) => {
   let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
   let related = await userHelpers.relatedDetails(product.Category)
   let user = req.session.user
-  res.render('user/product-page', { product, user, cartCount,related })
+  res.render('user/product-page', { product, user, cartCount, related })
 })
 
 router.get('/categoryWise/:cat', async (req, res) => {
@@ -346,9 +346,9 @@ router.get('/checkout', verifyLogin, async (req, res) => {
   let addresses = await userHelpers.getAddress(req.session?.user._id);
   let products = await userHelpers.getCartProducts(req.session?.user?._id)
   let user = await userHelpers.getOneUser(req.session.user._id)
-  if(!total == 0){
-  res.render('user/place-order', { total, user,addresses, products })
-  }else{
+  if (!total == 0) {
+    res.render('user/place-order', { total, user, addresses, products })
+  } else {
     res.redirect('/');
   }
 })
@@ -617,21 +617,21 @@ router.post("/applyWallet", async (req, res) => {
   if (userDetails.wallet >= walletAmount) {
     let total = ttl - walletAmount;
     userHelpers.applyWallet(walletAmount, user).then(async (response) => {
-    let userDetails = await productHelper.getUserDetails(user);
-    walletBalance = userDetails.wallet
+      let userDetails = await productHelper.getUserDetails(user);
+      walletBalance = userDetails.wallet
       req.session.walletTotal = total;
-      res.json({ walletSuccess: true, total, walletAmount,walletBalance });
+      res.json({ walletSuccess: true, total, walletAmount, walletBalance });
     });
   } else {
     res.json({ valnotCurrect: true });
   }
 });
 
-router.get('/quickview/:id',async (req,res)=>{
+router.get('/quickview/:id', async (req, res) => {
   let product = await userHelpers.productView(req.params.id)
   let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
   let user = req.session.user
-  res.render('user/quickView',{product,cartCount,user})
+  res.render('user/quickView', { product, cartCount, user })
 })
 
 module.exports = router;
