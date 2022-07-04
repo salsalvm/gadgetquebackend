@@ -55,14 +55,18 @@ router.post('/login', (req, res) => {
       if (!response.blocked) {
         req.session.user = response.user
         req.session.userLoggedIn = true;
-        res.redirect('/')
+        // res.redirect('/')
+        res.send({response})
       } else {
         req.session.userLogInErr = 'Sorry your account have been blocked'
-        res.redirect('/login')
+        // res.redirect('/login')
+        res.send({"error":"Sorry your account have been blocked"})
+
       }
     } else {
       req.session.userLogInErr = 'Invalid Username or Password'
-      res.redirect('/login')
+      // res.redirect('/login')
+      res.send({"error":"Invalid Username or Password"})
     }
   })
 })
@@ -102,8 +106,10 @@ router.get('/login', (req, res) => {
 router.get('/otpLogin', (req, res) => {
   if (req.session.user) {
     res.redirect('/')
+    // res.send({login:true})
   } else {
     res.render('user/otpLogin', { 'logInErr': req.session.userLogInErr })
+    // res.send({'logInErr': req.session.userLogInErr})
     req.session.userLogInErr = false
   }
 })
@@ -113,7 +119,8 @@ router.post('/otpLogin', (req, res) => {
   var phone = req.body.mobile;
   userHelpers.checkPhone(phone).then((num) => {
     if (num?.userBlocked) {
-      res.render('user/otpLogin', { otpErr1: true })
+      // res.render('user/otpLogin', { otpErr1: true })
+      res.send({otpErr1: true})
     } else {
       if (num) {
         client.verify
@@ -125,11 +132,13 @@ router.post('/otpLogin', (req, res) => {
           .then((resp) => {
             if (resp) {
               otpPhone = phone;
-              res.render('user/otpSubmit', { otpPhone })
+              // res.render('user/otpSubmit', { otpPhone })
+              res.send({otpPhone})
             }
           })
       } else {
-        res.render('user/otpLogin', { otpErr: 'Invalid Phone Number' })
+        // res.render('user/otpLogin', { otpErr: 'Invalid Phone Number' })
+        res.send({otpErr: 'Invalid Phone Number'})
       }
     }
 
@@ -182,7 +191,8 @@ router.get('/resendOtp/:id', (req, res) => {
 
 router.get('/signup', async (req, res) => {
   let refer = (await req.query.refer) ? req.query.refer : null;
-  res.render('user/signup', { refer })
+  // res.render('user/signup', { refer })
+  res.send({refer})
 })
 
 var userSignup;
@@ -198,10 +208,12 @@ router.post('/signup', (req, res) => {
           if (resp) {
             if (resp.Mobile == req.body.Mobile) {
               let check = true;
-              res.render('user/signup', { check: 'Mobile Already exist' })
+              // res.render('user/signup', { check: 'Mobile Already exist' })
+              res.send({check: 'Mobile Already exist'})
             } else {
               let check = true;
-              res.render('user/signup', { check: 'Email Already exist' })
+              // res.render('user/signup', { check: 'Email Already exist' })
+              res.send({check: 'Email Already exist'})
             }
           } else {
             userSignup = req.body;
@@ -213,22 +225,26 @@ router.post('/signup', (req, res) => {
                 channel: "sms",
               }).then((ress) => {
                 let signupPhone = req.body.Mobile;
-                res.render("user/signupOtp", { signupPhone });
+                // res.render("user/signupOtp", { signupPhone });
+                res.send({signupPhone})
               })
           }
         });
       }).catch(() => {
-        res.render('user/signup', { check: 'Sorry Invalid Referal Code' })
+        // res.render('user/signup', { check: 'Sorry Invalid Referal Code' })
+        res.send({check: 'Sorry Invalid Referal Code'})
       })
   } else {
     userHelpers.emailCheck(req.body.Emailaddress, req.body.Mobile).then((resp) => {
       if (resp) {
         if (resp.Mobile == req.body.Mobile) {
           let check = true;
-          res.render('user/signup', { check: 'Mobile Already exist' })
+          // res.render('user/signup', { check: 'Mobile Already exist' })
+          res.send({ check: 'Mobile Already exist'})
         } else {
           let check = true;
-          res.render('user/signup', { check: 'Email Already exist' })
+          // res.render('user/signup', { check: 'Email Already exist' })
+          res.send({check: 'Email Already exist'})
         }
       } else {
         userSignup = req.body;
@@ -240,7 +256,8 @@ router.post('/signup', (req, res) => {
             channel: "sms",
           }).then((ress) => {
             let signupPhone = req.body.Mobile;
-            res.render("user/signupOtp", { signupPhone });
+            // res.render("user/signupOtp", { signupPhone });
+            res.send({signupPhone})
           })
       }
     })
@@ -270,10 +287,10 @@ router.get("/signupOtp", (req, res) => {
             console.log('test3', response);
             let valid = true;
             signupSuccess = "You Have Successfully signed up";
-            res.send(valid);
+            res.send({valid});
           } else {
             let valid = false;
-            res.send(valid);
+            res.send({valid});
           }
         })
       }
@@ -285,24 +302,28 @@ router.post('/login', (req, res) => {
     if (response.status) {
       req.session.user = response.user
       req.session.userLoggedIn = true;
-      res.redirect('/')
+      // res.redirect('/')
+      res.send({response})
     } else {
       req.session.userLogInErr = 'Invalid Username or Password'
-      res.redirect('/login')
+      // res.redirect('/login')
+      res.send({loginError:true})
     }
   })
 })
 router.get('/logout', (req, res) => {
   req.session.user = null;
   req.session.userLoggedIn = false;
-  res.redirect('/');
+  // res.redirect('/');
+  res.send({logOut:true})
 })
 router.get('/cart', [verifyLogin, verifyBlock], async (req, res) => {
   let user = req.session.user
   let products = await userHelpers.getCartProducts(req.session?.user?._id)
   let total = await userHelpers.getTotalAmount(req.session?.user._id)
   let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
-  res.render('user/cart', { user, products, total, cartCount })
+  // res.render('user/cart', { user, products, total, cartCount })
+  res.send({user, products, total, cartCount})
 })
 
 router.get('/product-page/:id', verifyBlock, async (req, res) => {
@@ -310,7 +331,8 @@ router.get('/product-page/:id', verifyBlock, async (req, res) => {
   let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
   let related = await userHelpers.relatedDetails(product.Category)
   let user = req.session.user
-  res.render('user/product-page', { product, user, cartCount, related })
+  // res.render('user/product-page', { product, user, cartCount, related })
+  res.send({product, user, cartCount, related})
 })
 
 router.get('/categoryWise/:cat', async (req, res) => {
@@ -318,7 +340,8 @@ router.get('/categoryWise/:cat', async (req, res) => {
   let user = req.session.user
   let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
   productHelper.getCatWise(cat).then((prodata) => {
-    res.render('user/categoryWise', { prodata, cat, user, cartCount })
+    // res.render('user/categoryWise', { prodata, cat, user, cartCount })
+    res.send({prodata, cat, user, cartCount})
   })
 })
 
