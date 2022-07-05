@@ -44,16 +44,19 @@ router.post('/adminlog', (req, res) => {
 })
 router.get('/', verifyLogin, function (req, res, next) {
   productHelper.getAllProducts().then((products) => {
-    res.render('admin/view-products', { admin: true, products, user });
+    // res.render('admin/view-products', { admin: true, products, user });
+    res.send({admin: true, products, user})
   })
 });
 router.get('/view-category', verifyLogin, (req, res) => {
   productHelper.getAllCategory().then((category) => {
-    res.render('admin/view-category', { admin: true, category, user })
+    // res.render('admin/view-category', { admin: true, category, user })
+    res.send({admin: true, category, user })
   })
 })
 router.get('/add-category', verifyLogin, (req, res) => {
-  res.render('admin/add-category', { admin: true, user })
+  // res.render('admin/add-category', { admin: true, user })
+  res.send({admin: true, user})
 })
 router.post('/add-category', (req, res) => {
   console.log(req.body);
@@ -65,6 +68,7 @@ router.post('/add-category', (req, res) => {
     image.mv('./public/category-image/' + result + '.jpg', (err, done) => {
       if (!err) {
         res.redirect('/admin/view-category')
+        // res.send({response})
       } else {
         console.log(err);
       }
