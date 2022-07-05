@@ -222,16 +222,27 @@ router.post('/signup', (req, res) => {
           } else {
             userSignup = req.body;
 
-            client.verify
-              .services(serviceSID)
-              .verifications.create({
-                to: `+91${req.body.Mobile}`,
-                channel: "sms",
-              }).then((ress) => {
-                let signupPhone = req.body.Mobile;
-                // res.render("user/signupOtp", { signupPhone });
-                res.send({signupPhone})
-              })
+            userHelpers.doSignup(userSignup).then((response) => {
+              if (response.acknowledged) {
+                console.log('test3', response);
+                let valid = true;
+                signupSuccess = "You Have Successfully signed up";
+                res.send({valid});
+              } else {
+                let valid = false;
+                res.send({valid});
+              }
+            })
+            // client.verify
+            //   .services(serviceSID)
+            //   .verifications.create({
+            //     to: `+91${req.body.Mobile}`,
+            //     channel: "sms",
+            //   }).then((ress) => {
+            //     let signupPhone = req.body.Mobile;
+            //     // res.render("user/signupOtp", { signupPhone });
+            //     res.send({signupPhone})
+            //   })
           }
         });
       }).catch(() => {
@@ -253,39 +264,6 @@ router.post('/signup', (req, res) => {
       } else {
         userSignup = req.body;
 
-        client.verify
-          .services(serviceSID)
-          .verifications.create({
-            to: `+91${req.body.Mobile}`,
-            channel: "sms",
-          }).then((ress) => {
-            let signupPhone = req.body.Mobile;
-            // res.render("user/signupOtp", { signupPhone });
-            res.send({signupPhone})
-          })
-      }
-    })
-  }
-
-})
-
-var signupSuccess
-router.get("/signupOtp", (req, res) => {
-  console.log('called2');
-  res.header(
-    "Cache-Control",
-    "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
-  );
-  let phoneNumber = req.query.phonenumber;
-  let otpNumber = req.query.otpnumber;
-  client.verify
-    .services(serviceSID)
-    .verificationChecks.create({
-      to: "+91" + phoneNumber,
-      code: otpNumber,
-    })
-    .then((resp) => {
-      if (resp.valid) {
         userHelpers.doSignup(userSignup).then((response) => {
           if (response.acknowledged) {
             console.log('test3', response);
@@ -297,9 +275,54 @@ router.get("/signupOtp", (req, res) => {
             res.send({valid});
           }
         })
+
+        // client.verify
+        //   .services(serviceSID)
+        //   .verifications.create({
+        //     to: `+91${req.body.Mobile}`,
+        //     channel: "sms",
+        //   }).then((ress) => {
+        //     let signupPhone = req.body.Mobile;
+        //     // res.render("user/signupOtp", { signupPhone });
+        //     res.send({signupPhone})
+        //   })
       }
-    });
-});
+    })
+  }
+
+})
+
+// var signupSuccess
+// router.get("/signupOtp", (req, res) => {
+//   console.log('called2');
+//   res.header(
+//     "Cache-Control",
+//     "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+//   );
+//   let phoneNumber = req.query.phonenumber;
+//   let otpNumber = req.query.otpnumber;
+//   client.verify
+//     .services(serviceSID)
+//     .verificationChecks.create({
+//       to: "+91" + phoneNumber,
+//       code: otpNumber,
+//     })
+//     .then((resp) => {
+//       if (resp.valid) {
+//         userHelpers.doSignup(userSignup).then((response) => {
+//           if (response.acknowledged) {
+//             console.log('test3', response);
+//             let valid = true;
+//             signupSuccess = "You Have Successfully signed up";
+//             res.send({valid});
+//           } else {
+//             let valid = false;
+//             res.send({valid});
+//           }
+//         })
+//       }
+//     });
+// });
 
 router.post('/login', (req, res) => {
   userHelpers.doLogin(req.body).then((response) => {
