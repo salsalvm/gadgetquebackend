@@ -227,7 +227,7 @@ router.post('/signup', (req, res) => {
                 console.log('test3', response);
                 let valid = true;
                 signupSuccess = "You Have Successfully signed up";
-                res.send({valid});
+                res.send({response});
               } else {
                 let valid = false;
                 res.send({valid});
