@@ -27,7 +27,7 @@ router.get('/adminlog', (req, res) => {
     res.redirect('/admin/view-users')
   } else {
     // res.render('admin/adminlog', { admin: true, 'logInErr': req.session.adminLogInErr })
-    res.send({admin: true, 'logInErr': req.session.adminLogInErr})
+    res.send({ admin: true, 'logInErr': req.session.adminLogInErr })
     req.session.adminLogInErr = false
   }
 })
@@ -35,28 +35,28 @@ router.post('/adminlog', (req, res) => {
   if (req.body.email == credential.email && req.body.password == credential.password) {
     user = req.session.adminLoggedIn = true;
     // res.redirect('/admin/view-users')
-    res.send({user:user})
+    res.send({ user: user })
   } else {
     req.session.adminLogInErr = 'Invalid Username or Password'
     // res.redirect('/admin/adminlog')
-    res.send({message:"Invalid Username or Password"})
+    res.send({ message: "Invalid Username or Password" })
   }
 })
 router.get('/', verifyLogin, function (req, res, next) {
   productHelper.getAllProducts().then((products) => {
     // res.render('admin/view-products', { admin: true, products, user });
-    res.send({admin: true, products, user})
+    res.send({ admin: true, products, user })
   })
 });
 router.get('/view-category', verifyLogin, (req, res) => {
   productHelper.getAllCategory().then((category) => {
     // res.render('admin/view-category', { admin: true, category, user })
-    res.send({admin: true, category, user })
+    res.send({ admin: true, category, user })
   })
 })
 router.get('/add-category', verifyLogin, (req, res) => {
   // res.render('admin/add-category', { admin: true, user })
-  res.send({admin: true, user})
+  res.send({ admin: true, user })
 })
 router.post('/add-category', (req, res) => {
   console.log(req.body);
@@ -310,7 +310,8 @@ router.post('/edit-user/:id', (req, res) => {
 router.get('/logout', (req, res) => {
   req.session.admin = null
   req.session.adminLoggedIn = false
-  res.redirect('/admin/adminlog')
+  // res.redirect('/admin/adminlog')
+  res.send({ logOut: true })
 })
 
 router.get('/admin-orders', verifyLogin, (req, res) => {
@@ -368,31 +369,31 @@ router.post("/delete-product-offer", verifyLogin, async (req, res, next) => {
   res.json({ status: true })
 });
 
-router.get('/category-offer',verifyLogin,async (req,res)=>{
+router.get('/category-offer', verifyLogin, async (req, res) => {
   let allCategory = await productHelper.getAllCategory()
   let allCatOffers = await productHelper.getCategoryOffer()
   console.log(allCatOffers);
-  res.render('admin/category-offer',{allCategory,admin: true, user: req.session.adminLoggedIn,allCatOffers})
+  res.render('admin/category-offer', { allCategory, admin: true, user: req.session.adminLoggedIn, allCatOffers })
 })
 
-router.post('/category-offer',(req,res)=>{
-  productHelper.addCategoryOffer(req.body).then((resp)=>{
+router.post('/category-offer', (req, res) => {
+  productHelper.addCategoryOffer(req.body).then((resp) => {
     res.redirect('/admin/category-offer')
   })
 })
 
-router.post("/delete-category-offer", verifyLogin,async (req, res, next) => {
+router.post("/delete-category-offer", verifyLogin, async (req, res, next) => {
   console.log('called');
-  productHelper.deleteCategoryOffer(req.body.offerId).then((resp)=>{
+  productHelper.deleteCategoryOffer(req.body.offerId).then((resp) => {
     res.redirect('/admin/category-offer')
   })
 });
 
-router.get('/coupon',verifyLogin,async (req,res)=>{
+router.get('/coupon', verifyLogin, async (req, res) => {
   console.log('called');
   allCoupons = await productHelper.getAllCoupons()
   console.log(allCoupons);
-  res.render('admin/coupon',{admin: true, user: req.session.adminLoggedIn,allCoupons})
+  res.render('admin/coupon', { admin: true, user: req.session.adminLoggedIn, allCoupons })
 })
 
 router.post("/add-coupon", (req, res) => {
@@ -408,13 +409,13 @@ router.get("/delete-coupon/:id", (req, res) => {
   });
 });
 
-router.get('/report',verifyLogin,async (req,res)=>{
-  productHelper.monthlyReport().then((data)=>{
-    res.render('admin/report',{admin: true,user: req.session.adminLoggedIn,data})
+router.get('/report', verifyLogin, async (req, res) => {
+  productHelper.monthlyReport().then((data) => {
+    res.render('admin/report', { admin: true, user: req.session.adminLoggedIn, data })
   })
 })
 
-router.post("/report",verifyLogin, (req, res) => {
+router.post("/report", verifyLogin, (req, res) => {
   productHelper.salesReport(req.body).then((data) => {
     res.render("admin/report", {
       admin: true,
