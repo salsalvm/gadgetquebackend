@@ -78,7 +78,8 @@ router.post('/add-category', (req, res) => {
 
 router.get('/edit-category/:id', verifyLogin, async (req, res) => {
   let category = await productHelper.getCategoryDetails(req.params.id)
-  res.render('admin/edit-category', { admin: true, category, user })
+  // res.render('admin/edit-category', { admin: true, category, user })
+  res.send({admin: true, category, user })
 });
 
 router.post('/edit-category/:id', (req, res) => {
@@ -102,7 +103,8 @@ router.post('/edit-category/:id', (req, res) => {
   }
 
   productHelper.updateCategory(req.params.id, req.body).then(() => {
-    res.redirect('/admin/view-category')
+    // res.redirect('/admin/view-category')
+    res.send({response})
   })
 })
 
@@ -125,7 +127,8 @@ router.get('/delete-category/', verifyLogin, (req, res) => {
 })
 router.get('/view-users', verifyLogin, (req, res) => {
   productHelper.getAllusers().then((users) => {
-    res.render('admin/view-users', { admin: true, users, user })
+    // res.render('admin/view-users', { admin: true, users, user })
+    res.send({admin: true, users})
   })
 });
 
