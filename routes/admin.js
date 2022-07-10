@@ -35,7 +35,7 @@ router.post('/adminlog', (req, res) => {
   if (req.body.email == credential.email && req.body.password == credential.password) {
     user = req.session.adminLoggedIn = true;
     // res.redirect('/admin/view-users')
-    res.send({ user: user })
+    res.send({response})
   } else {
     req.session.adminLogInErr = 'Invalid Username or Password'
     // res.redirect('/admin/adminlog')
@@ -54,7 +54,7 @@ router.get('/view-category', verifyLogin, (req, res) => {
     res.send({ admin: true, category, user })
   })
 })
-router.get('/add-category', verifyLogin, (req, res) => {
+router.get('/x', verifyLogin, (req, res) => {
   // res.render('admin/add-category', { admin: true, user })
   res.send({ admin: true, user })
 })
@@ -67,8 +67,8 @@ router.post('/add-category', (req, res) => {
 
     image.mv('./public/category-image/' + result + '.jpg', (err, done) => {
       if (!err) {
-        res.redirect('/admin/view-category')
-        // res.send({response})
+        // res.redirect('/admin/view-category')
+        res.send({response})
       } else {
         console.log(err);
       }
@@ -132,7 +132,8 @@ router.get('/view-users', verifyLogin, (req, res) => {
 router.get('/add-product', verifyLogin, (req, res) => {
   productHelper.getAllCategory().then((category) => {
     imageId = new ObjectId()
-    res.render('admin/add-product', { admin: true, user, category, imageId })
+    // res.render('admin/add-product', { admin: true, user, category, imageId })
+    res.send({admin: true, user, category, imageId })
   })
 })
 router.post('/add-product', (req, res) => {
