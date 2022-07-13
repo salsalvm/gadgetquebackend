@@ -27,7 +27,7 @@ router.get('/adminlog', (req, res) => {
     res.redirect('/admin/view-users')
   } else {
     // res.render('admin/adminlog', { admin: true, 'logInErr': req.session.adminLogInErr })
-    res.send({ admin: true, 'logInErr': req.session.adminLogInErr })
+    res.send({ admin: true, 'logInErr': req.session.adminLogInErr ,response})
     req.session.adminLogInErr = false
   }
 })
@@ -35,17 +35,17 @@ router.post('/adminlog', (req, res) => {
   if (req.body.email == credential.email && req.body.password == credential.password) {
     user = req.session.adminLoggedIn = true;
     // res.redirect('/admin/view-users')
-    res.send({response})
+    res.send({user})
   } else {
     req.session.adminLogInErr = 'Invalid Username or Password'
     // res.redirect('/admin/adminlog')
     res.send({ message: "Invalid Username or Password" })
   }
 })
-router.get('/', verifyLogin, function (req, res, next) {
+router.get('/', function (req, res, next) {
   productHelper.getAllProducts().then((products) => {
     // res.render('admin/view-products', { admin: true, products, user });
-    res.send({ admin: true, products, user })
+    res.send({ admin: true, products})
   })
 });
 router.get('/view-category', verifyLogin, (req, res) => {
@@ -328,7 +328,8 @@ router.get('/admin-orders', verifyLogin, (req, res) => {
 
 router.get('/admin-product-details/:id', async (req, res) => {
   let products = await userHelpers.getOrderProducts(req.params.id)
-  res.render('admin/admin-product-details', { products, admin: true, user: req.session.adminLoggedIn })
+  // res.render('admin/admin-product-details', { products, admin: true, user: req.session.adminLoggedIn })
+  res.send({products, admin: true, user: req.session.adminLoggedIn})
 })
 
 router.post('/status-update', (req, res) => {
@@ -339,11 +340,12 @@ router.post('/status-update', (req, res) => {
   })
 })
 
-router.get('/admin-dashboard', verifyLogin, async (req, res) => {
+router.get('/admin-dashboard', async (req, res) => {
   let currentDaySale = await productHelper.currentDaySale()
   let totalUsers = await productHelper.getTotalUsers()
   let topSelling = await productHelper.getTopSelling()
-  res.render('admin/admin-dashboard', { admin: true, user: req.session.adminLoggedIn, currentDaySale, totalUsers, topSelling })
+  // res.render('admin/admin-dashboard', { admin: true, user: req.session.adminLoggedIn, currentDaySale, totalUsers, topSelling })
+  res.send({ admin: true, user: req.session.adminLoggedIn, currentDaySale, totalUsers, topSelling})
 })
 
 router.get('/getChartDates', async (req, res) => {
