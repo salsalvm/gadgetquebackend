@@ -48,10 +48,10 @@ router.get('/', function (req, res, next) {
     res.send({ admin: true, products})
   })
 });
-router.get('/view-category', verifyLogin, (req, res) => {
+router.get('/view-category', (req, res) => {
   productHelper.getAllCategory().then((category) => {
     // res.render('admin/view-category', { admin: true, category, user })
-    res.send({ admin: true, category, user })
+    res.send({ admin: true, category,  })
   })
 })
 router.get('/x', verifyLogin, (req, res) => {
@@ -132,7 +132,7 @@ router.get('/view-users', verifyLogin, (req, res) => {
   })
 });
 
-router.get('/add-product', verifyLogin, (req, res) => {
+router.get('/add-product', (req, res) => {
   productHelper.getAllCategory().then((category) => {
     imageId = new ObjectId()
     // res.render('admin/add-product', { admin: true, user, category, imageId })
