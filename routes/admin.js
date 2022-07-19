@@ -7,6 +7,7 @@ require('dotenv').config();
 const fs = require('fs');
 const { ObjectId } = require('mongodb');
 const { result } = require('lodash');
+const { Console } = require('console');
 
 const credential = {
   email: process.env.adminEmail,
@@ -27,7 +28,7 @@ router.get('/adminlog', (req, res) => {
     res.redirect('/admin/view-users')
   } else {
     // res.render('admin/adminlog', { admin: true, 'logInErr': req.session.adminLogInErr })
-    res.send({ admin: true, 'logInErr': req.session.adminLogInErr ,response})
+    res.send({ admin: true, 'logInErr': req.session.adminLogInErr, response })
     req.session.adminLogInErr = false
   }
 })
@@ -35,7 +36,7 @@ router.post('/adminlog', (req, res) => {
   if (req.body.email == credential.email && req.body.password == credential.password) {
     user = req.session.adminLoggedIn = true;
     // res.redirect('/admin/view-users')
-    res.send({user})
+    res.send({ user })
   } else {
     req.session.adminLogInErr = 'Invalid Username or Password'
     // res.redirect('/admin/adminlog')
@@ -45,13 +46,13 @@ router.post('/adminlog', (req, res) => {
 router.get('/', function (req, res, next) {
   productHelper.getAllProducts().then((products) => {
     // res.render('admin/view-products', { admin: true, products, user });
-    res.send({ admin: true, products})
+    res.send({ admin: true, products })
   })
 });
 router.get('/view-category', (req, res) => {
   productHelper.getAllCategory().then((category) => {
     // res.render('admin/view-category', { admin: true, category, user })
-    res.send({ admin: true, category,  })
+    res.send({ admin: true, category, })
   })
 })
 router.get('/x', verifyLogin, (req, res) => {
@@ -68,7 +69,7 @@ router.post('/add-category', (req, res) => {
     image.mv('./public/category-image/' + result + '.jpg', (err, done) => {
       if (!err) {
         // res.redirect('/admin/view-category')
-        res.send({response})
+        res.send({ response })
       } else {
         console.log(err);
       }
@@ -79,7 +80,7 @@ router.post('/add-category', (req, res) => {
 router.get('/edit-category/:id', verifyLogin, async (req, res) => {
   let category = await productHelper.getCategoryDetails(req.params.id)
   // res.render('admin/edit-category', { admin: true, category, user })
-  res.send({admin: true, category, user })
+  res.send({ admin: true, category, user })
 });
 
 router.post('/edit-category/:id', (req, res) => {
@@ -104,7 +105,7 @@ router.post('/edit-category/:id', (req, res) => {
 
   productHelper.updateCategory(req.params.id, req.body).then(() => {
     // res.redirect('/admin/view-category')
-    res.send({response})
+    res.send({ response })
   })
 })
 
@@ -128,7 +129,7 @@ router.get('/delete-category/', verifyLogin, (req, res) => {
 router.get('/view-users', verifyLogin, (req, res) => {
   productHelper.getAllusers().then((users) => {
     // res.render('admin/view-users', { admin: true, users, user })
-    res.send({admin: true, users})
+    res.send({ admin: true, users })
   })
 });
 
@@ -136,7 +137,7 @@ router.get('/add-product', (req, res) => {
   productHelper.getAllCategory().then((category) => {
     imageId = new ObjectId()
     // res.render('admin/add-product', { admin: true, user, category, imageId })
-    res.send({admin: true, user, category, imageId })
+    res.send({ admin: true, category, imageId })
   })
 })
 router.post('/add-product', (req, res) => {
@@ -149,10 +150,10 @@ router.post('/add-product', (req, res) => {
     // let image = req.files?.Image
     // let image2 = req.files?.Image2
     // let image3 = req.files?.Image3
-    let image1 = req.files.image1;
+    let image1 = req.files?.image1;
     let image2 = req.files?.image2;
     let image3 = req.files?.image3;
-
+    console.log('hyhy><>>>>>>>>>>>>>>>>>>>',image1);
     const path = `./public/product-image/${result}`;
 
     fs.mkdir(path, (err) => {
@@ -168,6 +169,7 @@ router.post('/add-product', (req, res) => {
             image3.mv(`./public/product-image/${result}/${imageId}_3.jpg`, (err, done) => {
               if (!err) {
                 res.redirect('/admin/')
+                
               } else {
                 console.log(err);
               }
@@ -181,7 +183,8 @@ router.post('/add-product', (req, res) => {
         console.log(err);
       }
     })
-
+   
+    res.send({ result ,success:true,imageId})
 
 
   })
@@ -329,7 +332,7 @@ router.get('/admin-orders', verifyLogin, (req, res) => {
 router.get('/admin-product-details/:id', async (req, res) => {
   let products = await userHelpers.getOrderProducts(req.params.id)
   // res.render('admin/admin-product-details', { products, admin: true, user: req.session.adminLoggedIn })
-  res.send({products, admin: true, user: req.session.adminLoggedIn})
+  res.send({ products, admin: true, user: req.session.adminLoggedIn })
 })
 
 router.post('/status-update', (req, res) => {
@@ -345,7 +348,7 @@ router.get('/admin-dashboard', async (req, res) => {
   let totalUsers = await productHelper.getTotalUsers()
   let topSelling = await productHelper.getTopSelling()
   // res.render('admin/admin-dashboard', { admin: true, user: req.session.adminLoggedIn, currentDaySale, totalUsers, topSelling })
-  res.send({ admin: true, user: req.session.adminLoggedIn, currentDaySale, totalUsers, topSelling})
+  res.send({ admin: true, user: req.session.adminLoggedIn, currentDaySale, totalUsers, topSelling })
 })
 
 router.get('/getChartDates', async (req, res) => {

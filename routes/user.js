@@ -56,17 +56,17 @@ router.post('/login', (req, res) => {
         req.session.user = response.user
         req.session.userLoggedIn = true;
         // res.redirect('/')
-        res.send({response})
+        res.send({ response })
       } else {
         req.session.userLogInErr = 'Sorry your account have been blocked'
         // res.redirect('/login')
-        res.send({message:"Sorry your account have been blocked"})
+        res.send({ message: "Sorry your account have been blocked" })
 
       }
     } else {
       req.session.userLogInErr = 'Invalid Username or Password'
       // res.redirect('/login')
-      res.send({message:"Invalid Username or Password"})
+      res.send({ message: "Invalid Username or Password" })
     }
   })
 })
@@ -98,7 +98,7 @@ router.get('/login', (req, res) => {
     res.redirect('/')
   } else {
     // res.render('user/login', { 'logInErr': req.session.userLogInErr, signupSuccess })
-    res.send({logInErr: req.session.userLogInErr, signupSuccess})
+    res.send({ logInErr: req.session.userLogInErr, signupSuccess })
     req.session.userLogInErr = false
   }
   signupSuccess = null
@@ -107,10 +107,10 @@ router.get('/login', (req, res) => {
 router.get('/otpLogin', (req, res) => {
   if (req.session.user) {
     // res.redirect('/')
-    res.send({login:true})
+    res.send({ login: true })
   } else {
     // res.render('user/otpLogin', { 'logInErr': req.session.userLogInErr })
-    res.send({logInErr: req.session.userLogInErr})
+    res.send({ logInErr: req.session.userLogInErr })
     req.session.userLogInErr = false
   }
 })
@@ -121,7 +121,7 @@ router.post('/otpLogin', (req, res) => {
   userHelpers.checkPhone(phone).then((num) => {
     if (num?.userBlocked) {
       // res.render('user/otpLogin', { otpErr1: true })
-      res.send({otpErr1: true})
+      res.send({ otpErr1: true })
     } else {
       if (num) {
         client.verify
@@ -134,12 +134,12 @@ router.post('/otpLogin', (req, res) => {
             if (resp) {
               otpPhone = phone;
               // res.render('user/otpSubmit', { otpPhone })
-              res.send({otpPhone})
+              res.send({ otpPhone })
             }
           })
       } else {
         // res.render('user/otpLogin', { otpErr: 'Invalid Phone Number' })
-        res.send({otpErr: 'Invalid Phone Number'})
+        res.send({ otpErr: 'Invalid Phone Number' })
       }
     }
 
@@ -165,7 +165,7 @@ router.post('/otpSubmit/:id', (req, res) => {
           } else {
             req.session.userLogInErr = 'Invalid Username or Password'
             // res.redirect('/login')
-            res.send({message:'Invalid Username or Password'})
+            res.send({ message: 'Invalid Username or Password' })
           }
         })
       } else {
@@ -187,7 +187,7 @@ router.get('/resendOtp/:id', (req, res) => {
     .then((resp) => {
       if (resp) {
         // res.render('user/otpSubmit', { otpPhone, reotp: 'otp has been resend' })
-        res.send({otpPhone, reotp: 'otp has been resend'})
+        res.send({ otpPhone, reotp: 'otp has been resend' })
       }
     })
 
@@ -196,7 +196,7 @@ router.get('/resendOtp/:id', (req, res) => {
 router.get('/signup', async (req, res) => {
   let refer = (await req.query.refer) ? req.query.refer : null;
   // res.render('user/signup', { refer })
-  res.send({refer})
+  res.send({ refer })
 })
 
 var userSignup;
@@ -213,11 +213,11 @@ router.post('/signup', (req, res) => {
             if (resp.Mobile == req.body.Mobile) {
               let check = true;
               // res.render('user/signup', { check: 'Mobile Already exist' })
-              res.send({check: 'Mobile Already exist'})
+              res.send({ check: 'Mobile Already exist' })
             } else {
               let check = true;
               // res.render('user/signup', { check: 'Email Already exist' })
-              res.send({check: 'Email Already exist'})
+              res.send({ check: 'Email Already exist' })
             }
           } else {
             userSignup = req.body;
@@ -227,10 +227,10 @@ router.post('/signup', (req, res) => {
                 console.log('test3', response);
                 let valid = true;
                 signupSuccess = "You Have Successfully signed up";
-                res.send({response});
+                res.send({ response });
               } else {
                 let valid = false;
-                res.send({valid});
+                res.send({ valid });
               }
             })
             // client.verify
@@ -247,7 +247,7 @@ router.post('/signup', (req, res) => {
         });
       }).catch(() => {
         // res.render('user/signup', { check: 'Sorry Invalid Referal Code' })
-        res.send({check: 'Sorry Invalid Referal Code'})
+        res.send({ check: 'Sorry Invalid Referal Code' })
       })
   } else {
     userHelpers.emailCheck(req.body.Emailaddress, req.body.Mobile).then((resp) => {
@@ -255,11 +255,11 @@ router.post('/signup', (req, res) => {
         if (resp.Mobile == req.body.Mobile) {
           let check = true;
           // res.render('user/signup', { check: 'Mobile Already exist' })
-          res.send({ check: 'Mobile Already exist'})
+          res.send({ check: 'Mobile Already exist' })
         } else {
           let check = true;
           // res.render('user/signup', { check: 'Email Already exist' })
-          res.send({check: 'Email Already exist'})
+          res.send({ check: 'Email Already exist' })
         }
       } else {
         userSignup = req.body;
@@ -269,10 +269,10 @@ router.post('/signup', (req, res) => {
             console.log('test3', response);
             let valid = true;
             signupSuccess = "You Have Successfully signed up";
-            res.send({valid});
+            res.send({ valid });
           } else {
             let valid = false;
-            res.send({valid});
+            res.send({ valid });
           }
         })
 
@@ -330,11 +330,11 @@ router.post('/login', (req, res) => {
       req.session.user = response.user
       req.session.userLoggedIn = true;
       // res.redirect('/')
-      res.send({response})
+      res.send({ response })
     } else {
       req.session.userLogInErr = 'Invalid Username or Password'
       // res.redirect('/login')
-      res.send({loginError:true})
+      res.send({ loginError: true })
     }
   })
 })
@@ -342,7 +342,7 @@ router.get('/logout', (req, res) => {
   req.session.user = null;
   req.session.userLoggedIn = false;
   // res.redirect('/');
-  res.send({logOut:true})
+  res.send({ logOut: true })
 })
 router.get('/cart', [verifyLogin, verifyBlock], async (req, res) => {
   let user = req.session.user
@@ -350,7 +350,7 @@ router.get('/cart', [verifyLogin, verifyBlock], async (req, res) => {
   let total = await userHelpers.getTotalAmount(req.session?.user._id)
   let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
   // res.render('user/cart', { user, products, total, cartCount })
-  res.send({user, products, total, cartCount})
+  res.send({ user, products, total, cartCount })
 })
 
 router.get('/product-page/:id', verifyBlock, async (req, res) => {
@@ -359,7 +359,7 @@ router.get('/product-page/:id', verifyBlock, async (req, res) => {
   let related = await userHelpers.relatedDetails(product.Category)
   let user = req.session.user
   // res.render('user/product-page', { product, user, cartCount, related })
-  res.send({product, user, cartCount, related})
+  res.send({ product, user, cartCount, related })
 })
 
 router.get('/categoryWise/:cat', async (req, res) => {
@@ -368,7 +368,7 @@ router.get('/categoryWise/:cat', async (req, res) => {
   let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
   productHelper.getCatWise(cat).then((prodata) => {
     // res.render('user/categoryWise', { prodata, cat, user, cartCount })
-    res.send({prodata, cat, user, cartCount})
+    res.send({ prodata, cat, user, cartCount })
   })
 })
 
