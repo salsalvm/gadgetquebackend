@@ -7,6 +7,7 @@ const moment = require('moment')
 
 module.exports = {
   addProduct: (product, callback) => {
+    console.log("call in addproduct");
     console.log(product);
     db.get().collection('product').insertOne(product).then((data) => {
       console.log(data)

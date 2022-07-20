@@ -153,7 +153,7 @@ router.post('/add-product', (req, res) => {
     let image1 = req.files?.image1;
     let image2 = req.files?.image2;
     let image3 = req.files?.image3;
-    console.log('hyhy><>>>>>>>>>>>>>>>>>>>',image1);
+    console.log('hyhy><>>>>>>>>>>>>>>>>>>>', image1);
     const path = `./public/product-image/${result}`;
 
     fs.mkdir(path, (err) => {
@@ -169,7 +169,7 @@ router.post('/add-product', (req, res) => {
             image3.mv(`./public/product-image/${result}/${imageId}_3.jpg`, (err, done) => {
               if (!err) {
                 res.redirect('/admin/')
-                
+
               } else {
                 console.log(err);
               }
@@ -183,8 +183,8 @@ router.post('/add-product', (req, res) => {
         console.log(err);
       }
     })
-   
-    res.send({ result ,success:true,imageId})
+
+    res.status(200).send({ result, success: true, imageId })
 
 
   })
