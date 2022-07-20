@@ -10,7 +10,7 @@ module.exports = {
     console.log("call in addproduct");
     console.log(product);
     db.get().collection('product').insertOne(product).then((data) => {
-      console.log(data)
+      console.log(data.insertedId)
       callback(data.insertedId)
 
     })

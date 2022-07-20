@@ -141,10 +141,10 @@ router.get('/add-product', (req, res) => {
   })
 })
 router.post('/add-product', (req, res) => {
-  console.log(req.body);
+  console.log("body",req.body);
   console.log(req.files.Image);
   console.log(req.body.imageId);
-  imageId = req.body.imageId
+  req.body.imageId = new ObjectId()
 
   productHelper.addProduct(req.body, (result) => {
     // let image = req.files?.Image
