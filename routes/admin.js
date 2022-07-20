@@ -185,7 +185,7 @@ router.post('/add-product', (req, res) => {
       }
     })
 
-    res.send({ result, success: true, imageId })
+    res.send({ result, success: true,})
 
 
   })
