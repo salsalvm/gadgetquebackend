@@ -157,11 +157,11 @@ router.post('/add-product', (req, res) => {
     console.log('hyhy><>>>>>>>>>>>>>>>>>>>', image1);
     const path = `./public/product-image/${result}`;
 
-    fs.mkdir(path, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
+    // fs.mkdir(path, (err) => {
+    //   if (err) {
+    //     throw err;
+    //   }
+    // });
 
     image1.mv(`./public/product-image/${result}/image_1.jpg`, (err, done) => {
       if (!err) {
@@ -185,7 +185,7 @@ router.post('/add-product', (req, res) => {
       }
     })
 
-    res.status(200).send({ result, success: true, imageId })
+    res.send({ result, success: true, imageId })
 
 
   })
