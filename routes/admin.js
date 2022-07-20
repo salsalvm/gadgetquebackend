@@ -144,7 +144,8 @@ router.post('/add-product', (req, res) => {
   console.log("body",req.body);
   console.log(req.files.Image);
   console.log(req.body.imageId);
-  req.body.imageId = new ObjectId()
+  req.body.imageId = 'image'
+  console.log('sadasd',req.body);
 
   productHelper.addProduct(req.body, (result) => {
     // let image = req.files?.Image
@@ -162,11 +163,11 @@ router.post('/add-product', (req, res) => {
       }
     });
 
-    image1.mv(`./public/product-image/${result}/${imageId}_1.jpg`, (err, done) => {
+    image1.mv(`./public/product-image/${result}/image_1.jpg`, (err, done) => {
       if (!err) {
-        image2.mv(`./public/product-image/${result}/${imageId}_2.jpg`, (err, done) => {
+        image2.mv(`./public/product-image/${result}/image_2.jpg`, (err, done) => {
           if (!err) {
-            image3.mv(`./public/product-image/${result}/${imageId}_3.jpg`, (err, done) => {
+            image3.mv(`./public/product-image/${result}/image_3.jpg`, (err, done) => {
               if (!err) {
                 res.redirect('/admin/')
 
