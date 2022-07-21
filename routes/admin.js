@@ -141,11 +141,11 @@ router.get('/add-product', (req, res) => {
   })
 })
 router.post('/add-product', (req, res) => {
-  console.log("body",req.body);
+  console.log("body", req.body);
   console.log(req.files.Image);
   console.log(req.body.imageId);
   req.body.imageId = 'image'
-  console.log('sadasd',req.body);
+  console.log('sadasd', req.body);
 
   productHelper.addProduct(req.body, (result) => {
     // let image = req.files?.Image
@@ -185,15 +185,15 @@ router.post('/add-product', (req, res) => {
       }
     })
 
-    res.send({ result, success: true,})
+    res.send({ result, success: true, })
 
 
   })
 
 })
 
-router.get('/delete-product/', verifyLogin, async (req, res) => {
-  let proId = req.query.id
+router.get('/delete-product/:id', async (req, res) => {
+  let proId = req.params.id
 
 
   productHelper.deleteProduct(proId).then((response) => {
@@ -201,20 +201,23 @@ router.get('/delete-product/', verifyLogin, async (req, res) => {
       const path = `./public/product-image/${proId}`;
       // To delete whole  product image folder
 
-      try {
-        fs.rmdirSync(path, { recursive: true });
+      // try {
+      //   fs.rmdirSync(path, { recursive: true });
 
-      } catch (err) {
-      }
-      res.redirect("/admin/");
+      // } catch (err) {
+      // }
+      // res.redirect("/admin/");
+      res.send({ response })
     } else {
-      res.redirect("/admin/");
+      // res.redirect("/admin/");
+      res.send({ error: true })
     }
   });
 })
-router.get('/edit-product/:id', verifyLogin, async (req, res) => {
+router.get('/edit-product/:id', async (req, res) => {
   let product = await productHelper.getProductDetails(req.params.id)
-  res.render('admin/edit-product', { admin: true, product })
+  // res.render('admin/edit-product', { admin: true, product })
+  res.send({ admin: true, product })
 });
 
 router.post('/edit-product/:id', async (req, res) => {
