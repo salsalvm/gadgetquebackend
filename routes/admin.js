@@ -8,6 +8,7 @@ const fs = require('fs');
 const { ObjectId } = require('mongodb');
 const { result } = require('lodash');
 const { Console } = require('console');
+const { response } = require('express');
 
 const credential = {
   email: process.env.adminEmail,
@@ -228,7 +229,7 @@ router.post('/edit-product/:id', async (req, res) => {
   let image3 = req.files?.Image3;
   console.log(id);
   console.log(product.imageId);
-  imageId = product.imageId
+  let imageId = product.imageId
 
   if (image) {
     fs.unlink(
@@ -276,8 +277,9 @@ router.post('/edit-product/:id', async (req, res) => {
     );
   }
 
-  productHelper.updateProduct(req.params.id, req.body).then(() => {
-    res.redirect('/admin/')
+  productHelper.updateProduct(req.params.id, req.body).then((response) => {
+    // res.redirect('/admin/')
+    res.send(response)
   })
 })
 
