@@ -56,7 +56,7 @@ router.get('/view-category', (req, res) => {
     res.send({ admin: true, category, })
   })
 })
-router.get('/x', verifyLogin, (req, res) => {
+router.get('/x', (req, res) => {
   // res.render('admin/add-category', { admin: true, user })
   res.send({ admin: true, user })
 })
@@ -70,7 +70,7 @@ router.post('/add-category', (req, res) => {
     image.mv('./public/category-image/' + result + '.jpg', (err, done) => {
       if (!err) {
         // res.redirect('/admin/view-category')
-        res.send({ response })
+        res.send({ result, success: true })
       } else {
         console.log(err);
       }
@@ -158,11 +158,11 @@ router.post('/add-product', (req, res) => {
     console.log('hyhy><>>>>>>>>>>>>>>>>>>>', image1);
     const path = `./public/product-image/${result}`;
 
-    // fs.mkdir(path, (err) => {
-    //   if (err) {
-    //     throw err;
-    //   }
-    // });
+    fs.mkdir(path, (err) => {
+      if (err) {
+        throw err;
+      }
+    });
 
     image1.mv(`./public/product-image/${result}/image_1.jpg`, (err, done) => {
       if (!err) {
