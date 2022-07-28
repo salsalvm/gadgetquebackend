@@ -19,9 +19,9 @@ module.exports = {
             db.get().collection(collection.USER_COLLECTION).insertOne(userData).then((data) => {
                 return res(data)
             })
-            if(userData.referedBy != ''){
-                console.log('inside called',userData.referedBy);
-                db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userData.referedBy)},{ $inc: { wallet: 100} })
+            if (userData.referedBy != '') {
+                console.log('inside called', userData.referedBy);
+                db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userData.referedBy) }, { $inc: { wallet: 100 } })
             }
         })
     },
@@ -93,6 +93,7 @@ module.exports = {
         })
     },
     addToCart: (proId, userId) => {
+        console.log(proId, userId);
         let proObj = {
             item: objectId(proId),
             quantity: 1
@@ -218,6 +219,7 @@ module.exports = {
         })
     },
     removeCartProduct: (details) => {
+        console.log(details);
         return new Promise((res, rej) => {
             db.get().collection(collection.CART_COLLECTION)
                 .updateOne({ _id: objectId(details.cart) },
@@ -272,9 +274,9 @@ module.exports = {
         return new Promise((res, rej) => {
             let status = Method === 'COD' ? 'placed' : 'Cancelled'
             var cancelled = false;
-            if(status == 'Cancelled'){
+            if (status == 'Cancelled') {
                 var cancelled = true;
-            }else if(status == 'placed'){
+            } else if (status == 'placed') {
                 var cancelled = false;
             }
             console.log(order);
@@ -587,48 +589,48 @@ module.exports = {
     },
     checkReferal: (referal) => {
         return new Promise(async (res, rej) => {
-          let refer = await db.get().collection(collection.USER_COLLECTION).find({ refer: referal }).toArray();
-          if(refer){
-              res(refer)
-          }else{
-              res(err)
-          }
+            let refer = await db.get().collection(collection.USER_COLLECTION).find({ refer: referal }).toArray();
+            if (refer) {
+                res(refer)
+            } else {
+                res(err)
+            }
         });
-      },
-      applyWallet:(val,userId)=>{
-        let value=parseInt(val)
+    },
+    applyWallet: (val, userId) => {
+        let value = parseInt(val)
         console.log(val);
-      return new Promise((res,rej)=>{
-          db.get().collection(collection.USER_COLLECTION).updateOne({_id:objectId(userId)},{ $inc: { wallet: -value }}).then((response)=>{
-              res(response)
-      })
-      }) 
-  },
-  clearCart: (id)=>{
-      console.log('ccxcvax',id);
-    return new Promise((res,rej)=>{
-    db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(id) }).then((response)=>{
-        res(response)
-    })
-    })
-  },
-  relatedDetails: (categoryId) => {
-    return new Promise(async (resolve, reject) => {
-      let category = await db
-        .get()
-        .collection(collection.PRODUCT_COLLECTION)
-        .find({ Category: categoryId })
-        .toArray();
-      resolve(category);
-    });
-  },
-  getOneUser: (id)=>{
-      return new Promise(async (resolve,reject)=>{
-          let user = await
-           db.get().collection(collection.USER_COLLECTION)
-           .findOne({_id: objectId(id)})
-           resolve(user)
-      })
-  }
+        return new Promise((res, rej) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ _id: objectId(userId) }, { $inc: { wallet: -value } }).then((response) => {
+                res(response)
+            })
+        })
+    },
+    clearCart: (id) => {
+        console.log('ccxcvax', id);
+        return new Promise((res, rej) => {
+            db.get().collection(collection.CART_COLLECTION).deleteOne({ user: objectId(id) }).then((response) => {
+                res(response)
+            })
+        })
+    },
+    relatedDetails: (categoryId) => {
+        return new Promise(async (resolve, reject) => {
+            let category = await db
+                .get()
+                .collection(collection.PRODUCT_COLLECTION)
+                .find({ Category: categoryId })
+                .toArray();
+            resolve(category);
+        });
+    },
+    getOneUser: (id) => {
+        return new Promise(async (resolve, reject) => {
+            let user = await
+                db.get().collection(collection.USER_COLLECTION)
+                    .findOne({ _id: objectId(id) })
+            resolve(user)
+        })
+    }
 
 }

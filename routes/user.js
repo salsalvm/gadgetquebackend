@@ -16,7 +16,8 @@ const authToken = process.env.authToken;
 const client = require('twilio')(accountSID, authToken)
 const paypal = require('paypal-rest-sdk');
 const { parse } = require('dotenv');
-const createReferal = require('referral-code-generator')
+const createReferal = require('referral-code-generator');
+const { ObjectID } = require('bson');
 
 
 paypal.configure({
@@ -54,6 +55,8 @@ router.post('/login', (req, res) => {
     if (response.status) {
       if (!response.blocked) {
         req.session.user = response.user
+
+        console.log(response, 'response');
         req.session.userLoggedIn = true;
         // res.redirect('/')
         res.send({ response })
@@ -70,12 +73,13 @@ router.post('/login', (req, res) => {
     }
   })
 })
-router.get('/', verifyBlock, async function (req, res, next) {
+router.get('/', async function (req, res, next) {
   res.header(
     "Cache-Control",
     "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
   );
   let user = req.session.user
+  console.log(user, 'user>>>>>>>>>>MM<<<<<<<<');
   let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
   await productHelper.checkOfferExpiry(new Date).then((resp) => {
   })
@@ -87,6 +91,7 @@ router.get('/', verifyBlock, async function (req, res, next) {
   console.log(allCoupons);
   productHelper.getAllProducts().then((products) => {
     productHelper.getAllCategory().then((category) => {
+      console.log(req.session.user, 'homeeeee');
       // res.render('user/view-products', { products, category, user, cartCount,allCoupons,homePage:true});
       res.send({ products, category, user, cartCount, allCoupons, homePage: true })
     })
@@ -344,13 +349,25 @@ router.get('/logout', (req, res) => {
   // res.redirect('/');
   res.send({ logOut: true })
 })
-router.get('/cart', [verifyLogin, verifyBlock], async (req, res) => {
-  let user = req.session.user
-  let products = await userHelpers.getCartProducts(req.session?.user?._id)
-  let total = await userHelpers.getTotalAmount(req.session?.user._id)
-  let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
+router.get('/cart/:id', async (req, res) => {
+
+  let user = req.params.id
+  // console.log(user,'<<<<<<<user id>>>>>>>>');
+  req.session.u = user;
+  console.log(req.session.u, '<<<<<<<user session id>>>>>>>>');
+  let products = await userHelpers.getCartProducts(user)
+  let total = await userHelpers.getTotalAmount(user)
+  let cartCount = await userHelpers.getCartCount(user)
   // res.render('user/cart', { user, products, total, cartCount })
-  res.send({ user, products, total, cartCount })
+  console.log(total);
+  console.log(products.length);
+  if (products.length == 0) {
+    total = 0;
+    res.send({ user, products, total, cartCount })
+  } else {
+    res.send({ user, products, total, cartCount })
+  }
+
 })
 
 router.get('/product-page/:id', verifyBlock, async (req, res) => {
@@ -358,6 +375,7 @@ router.get('/product-page/:id', verifyBlock, async (req, res) => {
   let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
   let related = await userHelpers.relatedDetails(product.Category)
   let user = req.session.user
+
   // res.render('user/product-page', { product, user, cartCount, related })
   res.send({ product, user, cartCount, related })
 })
@@ -372,8 +390,12 @@ router.get('/categoryWise/:cat', async (req, res) => {
   })
 })
 
-router.get('/add-to-cart/:id', (req, res) => {
-  userHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
+router.get('/add-to-cart/:id/:userId', (req, res) => {
+  // console.log('$$$$$$$$', req.session, 'd>>>>>>>>>>>>>>>user id');
+  // console.log('<<<<<', req.body);
+
+  // 
+  userHelpers.addToCart(req.params.id, req.params.userId).then(() => {
     res.json({ status: true })
   })
 })
@@ -386,6 +408,7 @@ router.post('/change-product-quantity/', (req, res, next) => {
 })
 
 router.post('/remove-cart-product', (req, res, next) => {
+  console.log(req.body);
   userHelpers.removeCartProduct(req.body).then((response) => {
     res.json(response)
   })

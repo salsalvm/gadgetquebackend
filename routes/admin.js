@@ -78,7 +78,7 @@ router.post('/add-category', (req, res) => {
   })
 });
 
-router.get('/edit-category/:id', verifyLogin, async (req, res) => {
+router.get('/edit-category/:id', async (req, res) => {
   let category = await productHelper.getCategoryDetails(req.params.id)
   // res.render('admin/edit-category', { admin: true, category, user })
   res.send({ admin: true, category, user })
@@ -106,11 +106,11 @@ router.post('/edit-category/:id', (req, res) => {
 
   productHelper.updateCategory(req.params.id, req.body).then(() => {
     // res.redirect('/admin/view-category')
-    res.send({ response })
+    res.send({ success: true })
   })
 })
 
-router.get('/delete-category/', verifyLogin, (req, res) => {
+router.get('/delete-category/', (req, res) => {
   let catId = req.query.id
 
   fs.unlink(
@@ -118,13 +118,15 @@ router.get('/delete-category/', verifyLogin, (req, res) => {
     (err, done) => {
       if (!err) {
         console.log('image removed');
+
       } else {
       }
     }
   )
 
   productHelper.deleteCategory(catId).then((response) => {
-    res.redirect('/admin/view-category')
+    // res.redirect('/admin/view-category')
+    res.send(response)
   })
 })
 router.get('/view-users', verifyLogin, (req, res) => {
@@ -142,54 +144,63 @@ router.get('/add-product', (req, res) => {
   })
 })
 router.post('/add-product', (req, res) => {
-  console.log("body", req.body);
-  console.log(req.files.Image);
-  console.log(req.body.imageId);
-  req.body.imageId = 'image'
-  console.log('sadasd', req.body);
+  try {
 
-  productHelper.addProduct(req.body, (result) => {
-    // let image = req.files?.Image
-    // let image2 = req.files?.Image2
-    // let image3 = req.files?.Image3
-    let image1 = req.files?.image1;
-    let image2 = req.files?.image2;
-    let image3 = req.files?.image3;
-    console.log('hyhy><>>>>>>>>>>>>>>>>>>>', image1);
-    const path = `./public/product-image/${result}`;
+    console.log("body", req.body);
+    console.log(req.files.Image);
+    console.log(req.body.imageId);
+    req.body.imageId = 'image'
+    console.log('sadasd', req.body);
 
-    fs.mkdir(path, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
+    productHelper.addProduct(req.body, (result) => {
+      // let image = req.files?.Image
+      // let image2 = req.files?.Image2
+      // let image3 = req.files?.Image3
+      let image1 = req.files?.image1;
+      let image2 = req.files?.image2;
+      let image3 = req.files?.image3;
+      console.log('hyhy><>>>>>>>>>>>>>>>>>>>', image1);
+      console.log('<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>.', result);
 
-    image1.mv(`./public/product-image/${result}/image_1.jpg`, (err, done) => {
-      if (!err) {
-        image2.mv(`./public/product-image/${result}/image_2.jpg`, (err, done) => {
-          if (!err) {
-            image3.mv(`./public/product-image/${result}/image_3.jpg`, (err, done) => {
-              if (!err) {
-                res.redirect('/admin/')
-
-              } else {
-                console.log(err);
-              }
-            })
-          } else {
-            console.log(err);
+      if (result) {
+        const path = `./public/product-image/${result}`;
+        fs.mkdir(path, (err) => {
+          if (err) {
+            throw err;
           }
-        })
-
-      } else {
-        console.log(err);
+        });
       }
+
+
+      image1.mv(`./public/product-image/${result}/image_1.jpg`, (err, done) => {
+        if (!err) {
+          image2.mv(`./public/product-image/${result}/image_2.jpg`, (err, done) => {
+            if (!err) {
+              image3.mv(`./public/product-image/${result}/image_3.jpg`, (err, done) => {
+                if (!err) {
+                  res.send({ result, success: true, })
+
+                } else {
+                  console.log(err);
+                }
+              })
+            } else {
+              console.log(err);
+            }
+          })
+
+        } else {
+          console.log(err);
+        }
+      })
+
+
+
+
     })
-
-    res.send({ result, success: true, })
-
-
-  })
+  } catch (error) {
+    res.status(404).json(error)
+  }
 
 })
 
@@ -440,4 +451,4 @@ router.post("/report", verifyLogin, (req, res) => {
   });
 });
 
-module.exports = router;
+module.exports = router; 
