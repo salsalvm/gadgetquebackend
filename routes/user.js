@@ -18,6 +18,7 @@ const paypal = require('paypal-rest-sdk');
 const { parse } = require('dotenv');
 const createReferal = require('referral-code-generator');
 const { ObjectID } = require('bson');
+const { response } = require('express');
 
 
 paypal.configure({
@@ -588,14 +589,15 @@ router.post('/update-details', (req, res) => {
   })
 })
 
-router.get('/my-address', verifyLogin, async (req, res) => {
+router.get('/my-address/:id', async (req, res) => {
   res.header(
     "Cache-Control",
     "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
   );
-  let addresses = await userHelpers.getAddress(req.session?.user._id);
-  let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
-  res.render('user/my-address', { user: req.session.user, cartCount, addresses, addressMsg })
+  let addresses = await userHelpers.getAddress(req.params.id);
+  let cartCount = await userHelpers.getCartCount(req.params.id)
+  // res.render('user/my-address', { user: req.session.user, cartCount, addresses, addressMsg })
+  res.send({ user: true, cartCount, addresses })
   addressMsg = null
 })
 
@@ -619,26 +621,29 @@ router.post('/change-password', (req, res) => {
   })
 })
 
-router.get('/delete-address/:id', verifyLogin, (req, res) => {
-  userHelpers.deleteAddress(req.session?.user._id, req.params.id).then((resp) => {
-    res.redirect('/my-address')
+router.get('/delete-address/:id/:addId', (req, res) => {
+  userHelpers.deleteAddress(req.params.id, req.params.addId).then((resp) => {
+    // res.redirect('/my-address')
+    res.send({ resp })
   })
 })
 
-router.get('/edit-address/:id', verifyLogin, (req, res) => {
+router.get('/edit-address/:id', (req, res) => {
   userHelpers.getOneAddress(req.params.id, req.session.user._id).then((resp) => {
-    console.log(resp);
-    res.render('user/edit-address', { address: resp })
+
+    // res.render('user/edit-address', { address: resp })
+    res.send(resp)
   })
 })
 
 var addressMsg
-router.post('/edit-address', (req, res) => {
+router.post('/edit-address/:userId', (req, res) => {
   console.log(req.body)
-  userHelpers.editAddress(req.session.user._id, req.body, req.body.addressId).then((resp) => {
+  userHelpers.editAddress(req.params.userId, req.body, req.body.addressId).then((resp) => {
     if (resp) {
       addressMsg = "Address Updated Successfully";
-      res.redirect('/my-address')
+      // res.redirect('/my-address')
+      res.send(resp)
     } else {
 
     }
@@ -646,14 +651,16 @@ router.post('/edit-address', (req, res) => {
   })
 })
 
-router.get('/add-address', verifyLogin, (req, res) => {
-  res.render('user/add-address')
+router.get('/add-address', (req, res) => {
+  // res.render('user/add-address')
+  res.send(res)
 })
 
-router.post('/add-address', (req, res) => {
-  userHelpers.addAddress(req.session.user._id, req.body).then((resp) => {
+router.post('/add-address/:id', (req, res) => {
+  userHelpers.addAddress(req.params.id, req.body).then((resp) => {
     addressMsg = "Address Added Successfully";
-    res.redirect('/my-address')
+    // res.redirect('/my-address')
+    res.send(resp)
   })
 })
 
