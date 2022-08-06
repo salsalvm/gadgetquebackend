@@ -24,7 +24,6 @@
 <div class="page-content mt-5">
   <div class="checkout">
     <div class="container">
-      
 
       <div class="row">
         <div class="col-lg-8 col-md-6">
@@ -45,17 +44,17 @@
           <h6 class="coupon__code text-center fs-4">BILLING DETAILS</h6>
           <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal"
             data-bs-whatever="@mdo">Add New Address</button>
-            <div id="couponMsg"></div>
-      <div class="checkout-discount">
-        <form action="#" id="couponForm">
-          <input type="text" class="form-control" style="text-transform:uppercase" required
-            id="checkout-discount-input">
-          <label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your
-              code</span></label>
-        </form>
-      </div><!-- End .checkout-discount -->
-      <button type="button" class="btn btn-primary mb-4" data-bs-target="#exampleModal"
-             onclick="checkCoupon()">Apply</button>
+          <div id="couponMsg"></div>
+          <div class="checkout-discount">
+            <form action="#" id="couponForm">
+              <input type="text" class="form-control" style="text-transform:uppercase" required
+                id="checkout-discount-input">
+              <label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your
+                  code</span></label>
+            </form>
+          </div><!-- End .checkout-discount -->
+          <button type="button" class="btn btn-primary mb-4" data-bs-target="#exampleModal"
+            onclick="checkCoupon()">Apply</button>
           <div class="card-header fw-bold mt-2 mb-2">
             SAVED ADDRESSES
           </div>
@@ -76,7 +75,8 @@
 
                       <div class="">
                         <label class="labels">Name</label><input type="text" name="name" class="form-control"
-                          placeholder="Name" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
+                          placeholder="Name"
+                          onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))' />
                       </div>
                       <div class="">
                         <label class="labels">Address</label><input type="text" name="address" id="phoneNumber"
@@ -218,7 +218,7 @@
                 <h2 class="card-title">
                   <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true"
                     aria-controls="collapse-1" name="paymentOption" id="razorpay" value="razorpay"
-              onclick="selectPayment('razorpay')">
+                    onclick="selectPayment('razorpay')">
                     Razorpay
                   </a>
                 </h2>
@@ -235,8 +235,7 @@
               <div class="card-header" id="heading-3">
                 <h2 class="card-title">
                   <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false"
-                    aria-controls="collapse-3" name="paymentOption" id="COD" value="COD"
-              onclick="selectPayment('COD')">
+                    aria-controls="collapse-3" name="paymentOption" id="COD" value="COD" onclick="selectPayment('COD')">
                     Cash on delivery
                   </a>
                 </h2>
@@ -253,7 +252,7 @@
                 <h2 class="card-title">
                   <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false"
                     aria-controls="collapse-4" name="paymentOption" id="paypal" value="paypal"
-              onclick="selectPayment('paypal')" >
+                    onclick="selectPayment('paypal')">
                     PayPal <small class="float-right paypal-link">What is PayPal?</small>
                   </a>
                 </h2>
@@ -266,14 +265,14 @@
               </div><!-- End .collapse -->
             </div><!-- End .card -->
 
-          <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block" onclick="placeOrder()">
-            <span class="btn-text">Place Order</span>
-            <span class="btn-hover-text">Proceed to Checkout</span>
-          </button>
-          <input type="text" id="userName" value="{{user.Name}}" disabled hidden>
-          <input type="text" id="userPhone" value="{{user.Mobile}}" disabled hidden>
-          <input type="text" id="userEmail" value="{{user.Emailaddress}}" disabled hidden>
-        </div><!-- End .summary -->
+            <button type="submit" class="btn btn-outline-primary-2 btn-order btn-block" onclick="placeOrder()">
+              <span class="btn-text">Place Order</span>
+              <span class="btn-hover-text">Proceed to Checkout</span>
+            </button>
+            <input type="text" id="userName" value="{{user.Name}}" disabled hidden>
+            <input type="text" id="userPhone" value="{{user.Mobile}}" disabled hidden>
+            <input type="text" id="userEmail" value="{{user.Emailaddress}}" disabled hidden>
+          </div><!-- End .summary -->
       </aside><!-- End .col-lg-3 -->
     </div><!-- End .row -->
   </div><!-- End .container -->
@@ -363,6 +362,7 @@
     }
     else {
       $.ajax({
+        // query//
         url: `/place-order?payment=${paymentMethod}&addressId=${checkoutAddressId}&disc=${discount}&code=${code}`,
         method: 'get',
         success: (response) => {
@@ -475,20 +475,20 @@
 </script>
 <script>
   function validate(evt) {
-  var theEvent = evt || window.event;
+    var theEvent = evt || window.event;
 
-  // Handle paste
-  if (theEvent.type === 'paste') {
+    // Handle paste
+    if (theEvent.type === 'paste') {
       key = event.clipboardData.getData('text/plain');
-  } else {
-  // Handle key press
+    } else {
+      // Handle key press
       var key = theEvent.keyCode || theEvent.which;
       key = String.fromCharCode(key);
+    }
+    var regex = /[0-9]|\./;
+    if (!regex.test(key)) {
+      theEvent.returnValue = false;
+      if (theEvent.preventDefault) theEvent.preventDefault();
+    }
   }
-  var regex = /[0-9]|\./;
-  if( !regex.test(key) ) {
-    theEvent.returnValue = false;
-    if(theEvent.preventDefault) theEvent.preventDefault();
-  }
-}
 </script>

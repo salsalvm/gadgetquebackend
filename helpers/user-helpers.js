@@ -405,6 +405,7 @@ module.exports = {
         })
     },
     getAddress: (userId) => {
+        console.log("address ",userId,'get');
         return new Promise(async (resolve, reject) => {
             let allAddress = await db.get().collection(collection.USER_COLLECTION).aggregate(
                 [{
