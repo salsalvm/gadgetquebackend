@@ -381,16 +381,15 @@ router.get('/product-page/:id', verifyBlock, async (req, res) => {
   res.send({ product, user, cartCount, related })
 })
 
-router.get('/categoryWise/:cat', async (req, res) => {
-  cat = req.params.cat
-  let user = req.session.user
-  let cartCount = await u
-  serHelpers.getCartCount(req.session?.user?._id)
 
+
+router.get('/categoryWise/:catId', async (req, res) => {
+  cat = req.params.catId
+  let user = req.session.user
+  let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
   productHelper.getCatWise(cat).then((prodata) => {
     // res.render('user/categoryWise', { prodata, cat, user, cartCount })
     res.send({ prodata, cat, user, cartCount })
-
   })
 })
 
@@ -562,17 +561,19 @@ router.post('/verify-payment', (req, res) => {
   })
 })
 
-router.get('/my-orders', verifyLogin, async (req, res) => {
-  let orders = await userHelpers.getUserOrders(req.session.user._id)
-  let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
+router.get('/my-orders/:id', async (req, res) => {
+  let orders = await userHelpers.getUserOrders(req.params.id)
+  let cartCount = await userHelpers.getCartCount(req.params.id)
   console.log(orders);
-  res.render('user/my-orders', { user: req.session.user, orders, cartCount })
+  // res.render('user/my-orders', { user: req.session.user, orders, cartCount })
+  res.json({ user: req.params.id, orders, cartCount })
 })
 
-router.get('/view-order-products/:id', async (req, res) => {
-  let products = await userHelpers.getOrderProducts(req.params.id)
-  let cartCount = await userHelpers.getCartCount(req.session?.user?._id)
-  res.render('user/view-order-products', { user: req.session.user, products, cartCount })
+router.get('/view-order-products/:oId/:uId', async (req, res) => {
+  let products = await userHelpers.getOrderProducts(req.params.oId)
+  let cartCount = await userHelpers.getCartCount(req.params.uId)
+  // res.render('user/view-order-products', { user: req.session.user, products, cartCount })
+  res.send({ user: req.session.user, products, cartCount })
 })
 
 var profileMsg;
@@ -616,10 +617,11 @@ router.get('/my-address/:id', async (req, res) => {
   addressMsg = null
 })
 
-router.get('/cancel-order/:id', verifyLogin, (req, res) => {
+router.get('/cancel-order/:id', (req, res) => {
   orderId = req.params.id;
   userHelpers.cancelOrder(orderId).then((response) => {
-    res.redirect('/my-orders')
+    // res.redirect('/my-orders')
+    res.send(response)
   })
 })
 
