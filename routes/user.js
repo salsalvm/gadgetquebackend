@@ -687,10 +687,13 @@ router.post('/add-checkout-address', (req, res) => {
   })
 })
 
-router.post('/check-coupon/:id', async (req, res) => {
+router.post('/check-coupon/:id/:code', async (req, res) => {
+  console.log(req.params.id);
+  console.log(req.params.code);
   console.log(req.body);
   console.log('called');
-  await userHelpers.checkCouponOffer(req.body.code, req.params.id).then((resp) => {
+  await userHelpers.checkCouponOffer(req.params.code, req.params.id).then((resp) => {
+    console.log(resp);
     if (resp.status) {
       res.json(resp.couponExist)
     }
@@ -699,9 +702,9 @@ router.post('/check-coupon/:id', async (req, res) => {
       res.json({ isUsed })
     }
     else {
-      // resp = false
+      resp = false
       res.json(resp)
-    }
+    } console.log();
   })
 })
 

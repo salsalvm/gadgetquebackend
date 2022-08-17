@@ -560,6 +560,7 @@ module.exports = {
         })
     },
     checkCouponOffer: (code, userId) => {
+        console.log({code, userId});
         return new Promise(async (resolve, reject) => {
             let couponExist = await db.get().collection(collection.COUPON_OFFER).findOne({ Coupon: code })
             if (couponExist) {
