@@ -129,7 +129,7 @@ router.get('/delete-category/', (req, res) => {
     res.send(response)
   })
 })
-router.get('/view-users', verifyLogin, (req, res) => {
+router.get('/view-users', (req, res) => {
   productHelper.getAllusers().then((users) => {
     // res.render('admin/view-users', { admin: true, users, user })
     res.send({ admin: true, users })
@@ -295,8 +295,8 @@ router.post('/edit-product/:id', async (req, res) => {
 })
 
 
-router.post("/block-user", verifyLogin, (req, res) => {
-  productHelper.blockUser(req.body.id).then((response) => {
+router.post("/block-user/:id", (req, res) => {
+  productHelper.blockUser(req.params.id).then((response) => {
     if (response) {
       res.json({ status: true });
     } else {
@@ -306,8 +306,8 @@ router.post("/block-user", verifyLogin, (req, res) => {
 });
 
 
-router.post("/unblock-user", verifyLogin, (req, res) => {
-  productHelper.unblockUser(req.body.id).then((response) => {
+router.post("/unblock-user/:id", (req, res) => {
+  productHelper.unblockUser(req.params.id).then((response) => {
     if (response) {
       res.json({ status: true });
     } else {
@@ -316,10 +316,11 @@ router.post("/unblock-user", verifyLogin, (req, res) => {
   });
 });
 
-router.get('/delete-user/:id', verifyLogin, (req, res) => {
+router.get('/delete-user/:id', (req, res) => {
   let userId = req.params.id
   productHelper.deleteUser(userId).then((response) => {
-    res.redirect('/admin/view-users')
+    // res.redirect('/admin/view-users')
+    res.send(response)
   })
 });
 router.get('/edit-user/:id', verifyLogin, async (req, res) => {
@@ -338,25 +339,30 @@ router.get('/logout', (req, res) => {
   res.send({ logOut: true })
 })
 
-router.get('/admin-orders', verifyLogin, (req, res) => {
+router.get('/admin-orders', (req, res) => {
   productHelper.viewOrders().then((response) => {
     if (response) {
-      res.render('admin/admin-orders', { allOrders: response, admin: true, user: req.session.adminLoggedIn })
+      // res.render('admin/admin-orders', { allOrders: response, admin: true, user: req.session.adminLoggedIn })
+      res.send({allOrders: response, admin: true, user: req.session.adminLoggedIn})
     }
   })
 })
 
+// ss
 router.get('/admin-product-details/:id', async (req, res) => {
   let products = await userHelpers.getOrderProducts(req.params.id)
   // res.render('admin/admin-product-details', { products, admin: true, user: req.session.adminLoggedIn })
   res.send({ products, admin: true, user: req.session.adminLoggedIn })
 })
 
-router.post('/status-update', (req, res) => {
+router.post('/status-update/:oid', (req, res) => {
   let status = req.body.status;
-  let orderId = req.body.orderId;
+  let orderId = req.params.oid;
   productHelper.changeStatus(status, orderId).then((reponse) => {
 
+if (reponse) {
+  res.send(response)
+}
   })
 })
 
@@ -366,7 +372,7 @@ router.get('/admin-dashboard', async (req, res) => {
   let topSelling = await productHelper.getTopSelling()
   // res.render('admin/admin-dashboard', { admin: true, user: req.session.adminLoggedIn, currentDaySale, totalUsers, topSelling })
   res.send({ admin: true, user: req.session.adminLoggedIn, currentDaySale, totalUsers, topSelling })
-})
+}) 
 
 router.get('/getChartDates', async (req, res) => {
   let dailySales = await productHelper.getdailySales()

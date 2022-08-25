@@ -460,9 +460,11 @@ router.get('/place-order/:id', async (req, res) => {
   }
 
   totalPrice = parseInt(totalPrice)
+  console.log(totalPrice,'total price');
   if (req.query.code !== 'undefined') {
     discount = parseInt(req.query.disc)
     totalPrice = totalPrice - discount
+    console.log(totalPrice,'discount price');
   }
 
   userHelpers.placeOrder(address[0], products, totalPrice, req.query.payment, user, req.query.code).then((orderId) => {
