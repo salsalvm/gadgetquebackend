@@ -526,7 +526,7 @@ router.get('/place-order/:id', async (req, res) => {
 
     } else {
       userHelpers.generateRazorpay(orderId, totalPrice).then((response) => {
-        res.json(response)
+        res.json({response, codSuccess: true})
       })
     }
 
